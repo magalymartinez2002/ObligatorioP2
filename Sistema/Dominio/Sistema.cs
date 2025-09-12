@@ -34,6 +34,19 @@ namespace Dominio
             _equipos.Add(e);
         }
 
+        //Listado de Pagos por mes
+
+        public List<Pago> ListarPagosPorMes(DateTime fecha)
+        {
+            List<Pago> pagosDelMes = new List<Pago>();
+            foreach (Pago p in _pagos)
+            { 
+            
+            }
+
+
+            return pagosDelMes;
+        }
 
 
     }

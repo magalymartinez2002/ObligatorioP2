@@ -12,14 +12,16 @@ namespace Dominio
 
         private string _noombre;
         private string _apellido;
+        private string _contrasenia;
         private string _email;
         private Equipo _equipo;
         private DateTime _fechaIngreso;
 
-        public Usuario(string noombre, string apellido, string email, Equipo equipo, DateTime fechaIngreso)
+        public Usuario(string noombre, string apellido,string contrasenia, string email, Equipo equipo, DateTime fechaIngreso)
         {
             _noombre = noombre;
             _apellido = apellido;
+            _contrasenia = contrasenia;
             _email = email;
             _equipo = equipo;
             _fechaIngreso = fechaIngreso;
@@ -33,6 +35,9 @@ namespace Dominio
             if (string.IsNullOrEmpty(_noombre))  throw new Exception("El nombre no puede ser nulo o estar vacio");
            
             if (string.IsNullOrEmpty(_apellido)) throw new Exception("El apellido no puede ser nulo o estar vacio");
+
+            if (string.IsNullOrEmpty(_contrasenia)) throw new Exception("La contrasenia no puede ser nula o estar vacia");
+            else if (_contrasenia.Length < 8) throw new Exception("La contrasenia debe tener al menos 8 caracteres");
 
             if (string.IsNullOrEmpty(_email)) throw new Exception("El email no puede ser nulo o estar vacio");
 

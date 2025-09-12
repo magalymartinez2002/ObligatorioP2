@@ -27,6 +27,8 @@ namespace Dominio
             _usuario = usuario;
         }
 
+        public MetodoDePago MetodoDePago { get { return _metodoDePago; } }
+
         public void Validar()
         {
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede ser nula o estar vacia");
