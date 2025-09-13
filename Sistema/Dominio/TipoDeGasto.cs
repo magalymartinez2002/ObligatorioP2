@@ -18,10 +18,20 @@ namespace Dominio
             _descripcion = descripcion;
         }
 
+        public string Nombre
+        {
+                       get { return _nombre; }
+        }
+
         public void Validar()
         {
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede ser nula o estar vacia");
+        }
+
+        public override string ToString()
+        {
+            return $"{_nombre} - {_descripcion}";
         }
     }
 }

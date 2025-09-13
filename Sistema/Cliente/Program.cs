@@ -1,4 +1,5 @@
 ﻿using Dominio;
+using System.Text.RegularExpressions;
 
 internal class Program
 {
@@ -19,7 +20,7 @@ internal class Program
             switch (opcion)
             {
                 case "1":
-                   
+                    ListarUsuarios();
                     break;
                 case "2":
                   
@@ -27,7 +28,7 @@ internal class Program
                 case "3":
                    
                     break;
-                case "4":
+                case "4": MostrarMenuEquipo();
                    
                     break;
                 case "5":
@@ -54,14 +55,54 @@ internal class Program
       //  MostrarMensajeColor(ConsoleColor.Cyan, "      MENU      ");
       //  MostrarMensajeColor(ConsoleColor.Cyan, "****************");
         Console.WriteLine();
-        Console.WriteLine("1 - Crear una marca");
-        Console.WriteLine("2 - Listar todas las marcas");
-        Console.WriteLine("3 - Crear un auto");
-        Console.WriteLine("4 - Listar todos los autos");
-        Console.WriteLine("5 - Listar autos posteriores a un año");
-        Console.WriteLine("6 - Listar autos por marca");
+        Console.WriteLine("1 - Listar Usuarios");
+        Console.WriteLine("2 - Listar mis Pagos");
+        Console.WriteLine("3 - Crear un Usuario");
+        Console.WriteLine("4 - Equipos");
+        Console.WriteLine("5 - ");
+        Console.WriteLine("6 - ");
         Console.WriteLine("0 - Salir");
     }
+
+    static void MostrarMenuEquipo()
+    {
+        Console.Clear();
+        // MostrarMensajeColor(ConsoleColor.Cyan, "************************");
+        //  MostrarMensajeColor(ConsoleColor.Cyan, "      MENU  EQUIPO    ");
+        //  MostrarMensajeColor(ConsoleColor.Cyan, "***********************");
+        Console.WriteLine();
+        Console.WriteLine("1 - Listar todos los Equipos");
+        Console.WriteLine("2 - Listar Usuarios por Equipos");
+        Console.WriteLine("3 - ");
+        Console.WriteLine("4 - ");
+        Console.WriteLine("5 - ");
+        Console.WriteLine("6 - ");
+        Console.WriteLine("0 - Salir");
+    }
+
+    static void ListarUsuarios()
+    {
+        Console.Clear();
+        MostrarMensajeColor(ConsoleColor.Yellow, "Listado de todos los Usuarios");
+        Console.WriteLine();
+
+        try
+        {
+            List<Usuario> usuarios= miSistema.Usuarios;
+            if (usuarios.Count == 0) throw new Exception("No se encontraron usuarios en el sistema");
+
+            foreach (Usuario u in usuarios)
+            {
+                Console.WriteLine(u);
+            }
+        }
+        catch (Exception ex)
+        {
+            MostrarError(ex.Message);
+        }
+        PressToContinue();
+    }
+  
 
     #region Métodos de lectura de datos por consola
     static string LeerTexto(string mensaje)

@@ -35,5 +35,14 @@ namespace Dominio
            
             if (_tipoDeGasto == null) throw new Exception("El tipo de gasto no puede ser nulo");
             if (_usuario == null) throw new Exception("El usuario no puede ser nulo");
-    }   }
+        } 
+
+        public override string ToString()
+        {
+            return $"{_descripcion} - {_metodoDePago} - {_tipoDeGasto} - {_usuario}";
+        }
+
+    }
+
+
 }

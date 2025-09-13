@@ -14,10 +14,15 @@ namespace Dominio
         private string _nombre;
 
 
-        public Equipo( string nombre)
+        public Equipo(string nombre)
         {
             _id = s_ultId++;
             _nombre = nombre;
+        }
+
+        public string Nombre
+        {
+            get { return _nombre; }
         }
 
         public void Validar()
@@ -25,5 +30,9 @@ namespace Dominio
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
         }
 
+        public override string ToString()
+        {
+            return $"{_nombre}";
+        }
     }
 }

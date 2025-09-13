@@ -36,5 +36,12 @@ namespace Dominio
             double montoTotal = _monto - (_monto * _descuento / 100);
             return montoTotal;
         }
+
+
+        public override string ToString()
+        {
+            return $"{_fecha} - Recibo N° {_numRecibo} - Monto: {_monto} - Descuento: {_descuento}% - Monto Total: {CalcularMontoTotal()}";
+        }
     }
+
 }

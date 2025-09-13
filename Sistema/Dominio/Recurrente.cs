@@ -26,6 +26,7 @@ namespace Dominio
 
         public double CalcularMontoTotal()
         {
+            // if (_fechaFin.) _fechaFin=DateTime.Today; si no tiene fecha fin, toma la fecha actual
             int meses = ((_fechaFin.Year - _fechaInicio.Year) * 12) + _fechaFin.Month - _fechaInicio.Month + 1;
             double montoTotal = (_montoDelPago * _recargo / 100) * meses;
 
@@ -46,6 +47,11 @@ namespace Dominio
 
 
             return recargoTotal;
+        }
+
+        public override string ToString()
+        {
+            return $"{_fechaInicio} - {_fechaFin} - Monto del Pago: {_montoDelPago} - Recargo: {_recargo}% - Monto Total: {CalcularMontoTotal()}";
         }
     }
 }
