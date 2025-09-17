@@ -24,7 +24,7 @@ namespace Dominio
 
 
 
-        public double CalcularMontoTotal()
+        public override double CalcularMontoTotal()
         {
             // if (_fechaFin.) _fechaFin=DateTime.Today; si no tiene fecha fin, toma la fecha actual
             int meses = ((_fechaFin.Year - _fechaInicio.Year) * 12) + _fechaFin.Month - _fechaInicio.Month + 1;

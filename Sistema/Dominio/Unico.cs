@@ -26,12 +26,12 @@ namespace Dominio
         public int CalcularDescuento()
         {
             int descuentoTotal = 10;
-            if (MetodoDePago == MetodoDePago.EFECTIVO) descuentoTotal = 20;
+            if (_metodoDePago == MetodoDePago.EFECTIVO) descuentoTotal = 20;
 
             return descuentoTotal;
         }
 
-        public double CalcularMontoTotal()
+        public override double CalcularMontoTotal()
         {
             double montoTotal = _monto - (_monto * _descuento / 100);
             return montoTotal;
@@ -40,7 +40,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            return $"{_fecha} - Recibo N° {_numRecibo} - Monto: {_monto} - Descuento: {_descuento}% - Monto Total: {CalcularMontoTotal()}";
+            return base.ToString + $"{_fecha} - Recibo N° {_numRecibo} - Monto: {_monto} - Descuento: {_descuento}% - Monto Total: {CalcularMontoTotal()}";
         }
     }
 

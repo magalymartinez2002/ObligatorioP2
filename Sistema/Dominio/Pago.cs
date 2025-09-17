@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class Pago : IValidable
+    public abstract class Pago : IValidable
     {
 
-        private int _id;
-        private static int s_ultiID = 1;
-        private string _descripcion;
-        private MetodoDePago _metodoDePago;
-        private TipoDeGasto _tipoDeGasto;
-        private Usuario _usuario;
+        protected int _id;
+        protected static int s_ultiID = 1;
+        protected string _descripcion;
+        protected MetodoDePago _metodoDePago;
+        protected TipoDeGasto _tipoDeGasto;
+        protected Usuario _usuario;
 
 
         public Pago( string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario)
@@ -27,9 +27,9 @@ namespace Dominio
             _usuario = usuario;
         }
 
-        public MetodoDePago MetodoDePago { get { return _metodoDePago; } }
+     
 
-        public void Validar()
+        public virtual void Validar()
         {
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede ser nula o estar vacia");
            
@@ -42,6 +42,8 @@ namespace Dominio
             return $"{_descripcion} - {_metodoDePago} - {_tipoDeGasto} - {_usuario}";
         }
 
+
+        public abstract double CalcularMontoTotal();
     }
 
 

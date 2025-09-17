@@ -215,7 +215,6 @@ namespace Dominio
 
         private void PrecargarPagos()
         {
-            CrearPago(new Pago("Realizado", MetodoDePago.CREDITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
 
         }
 
