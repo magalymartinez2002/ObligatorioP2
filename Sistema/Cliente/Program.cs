@@ -1,4 +1,5 @@
 ﻿using Dominio;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 internal class Program
@@ -23,20 +24,41 @@ internal class Program
                     ListarUsuarios();
                     break;
                 case "2":
-                  
+                    string email=LeerTexto("Ingrese el email del usuario: ");
+                    ListarPagosPorUsuario(email);
+
                     break;
                 case "3":
-                   
+                    CrearUsuario();
+
                     break;
-                case "4": MostrarMenuEquipo();
-                   
+                case "4":
+                    MostrarMenuEquipo();
+                    opcion = LeerTexto("Ingrese una opcion -> ");
+
+                    switch (opcion)
+                    {
+                        case "1":
+                            ListarEquipos();
+                            
+                            break;
+                        case "2":
+                            string equipo=LeerTexto("Ingrese el nombre del equipo: ");
+                            ListarUsuariosPorEquipo(equipo);
+
+                            break;
+                     
+                        case "0":
+                            Console.WriteLine("Saliendo...");
+                            break;
+                        default:
+                            MostrarError("ERROR: Opcion inválida");
+                            PressToContinue();
+                            break;
+                    }
+
                     break;
-                case "5":
-                  
-                    break;
-                case "6":
-                  
-                    break;
+               
                 case "0":
                     Console.WriteLine("Saliendo...");
                     break;
@@ -56,11 +78,9 @@ internal class Program
       //  MostrarMensajeColor(ConsoleColor.Cyan, "****************");
         Console.WriteLine();
         Console.WriteLine("1 - Listar Usuarios");
-        Console.WriteLine("2 - Listar mis Pagos");
+        Console.WriteLine("2 - Listar Pagos por un usuario");
         Console.WriteLine("3 - Crear un Usuario");
         Console.WriteLine("4 - Equipos");
-        Console.WriteLine("5 - ");
-        Console.WriteLine("6 - ");
         Console.WriteLine("0 - Salir");
     }
 
@@ -73,12 +93,42 @@ internal class Program
         Console.WriteLine();
         Console.WriteLine("1 - Listar todos los Equipos");
         Console.WriteLine("2 - Listar Usuarios por Equipos");
-        Console.WriteLine("3 - ");
-        Console.WriteLine("4 - ");
-        Console.WriteLine("5 - ");
-        Console.WriteLine("6 - ");
         Console.WriteLine("0 - Salir");
     }
+
+
+    static void CrearUsuario()
+    {
+        Console.Clear();
+        MostrarMensajeColor(ConsoleColor.Yellow, "Creacion de un nuevo Usuario");
+        try
+        {
+
+            string nombre = LeerTexto("Ingrese el nombre: ");
+            string apellido = LeerTexto("Ingrese el apellido: ");
+            string contrasenia = LeerTexto("Ingrese la contrasenia: ");
+            string equipoNombre = LeerTexto("Ingrese el nombre del equipo: ");
+            DateTime fechaIngreso= LeerFecha("Ingrese la fecha de ingreso");
+
+            Equipo equipo= miSistema.BuscarEquipoPorNombre(equipoNombre);
+            string email = miSistema.CrearEmailUsuario(nombre, apellido);
+
+            miSistema.CrearUsuario(new Usuario(nombre, apellido, contrasenia, email,equipo,fechaIngreso));
+
+            MostrarExito("Se ha creado el usuario correctamente. El email generado es: "+email);
+
+        }
+        catch (Exception ex)
+        {
+            MostrarError(ex.Message);
+
+
+
+        }
+        PressToContinue();
+    }
+
+    #region Listados
 
     static void ListarUsuarios()
     {
@@ -102,7 +152,79 @@ internal class Program
         }
         PressToContinue();
     }
-  
+
+    static void ListarPagosPorUsuario(string email)
+    {
+        Console.Clear();
+        MostrarMensajeColor(ConsoleColor.Yellow, "Listado de todos los Pagos");
+        Console.WriteLine();
+
+        try
+        {
+            
+            List<Pago> pagos = miSistema.ListarPagosPorUsuario(email);
+            if (pagos.Count == 0) throw new Exception("No se encontraron pagos en el sistema");
+
+            foreach (Pago p in pagos)
+            {
+                Console.WriteLine(p);
+            }
+        }
+        catch (Exception ex)
+        {
+            MostrarError(ex.Message);
+        }
+        PressToContinue();
+    }
+
+    static void ListarEquipos()
+    {
+        Console.Clear();
+        MostrarMensajeColor(ConsoleColor.Yellow, "Listado de todos los Equipos");
+        Console.WriteLine();
+
+        try
+        {
+            List<Equipo> equipos = miSistema.Equipos;
+            if (equipos.Count == 0) throw new Exception("No se encontraron equipos en el sistema");
+
+            foreach (Equipo e in equipos)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        catch (Exception ex)
+        {
+            MostrarError(ex.Message);
+        }
+        PressToContinue();
+    }
+
+    static void ListarUsuariosPorEquipo(string equipo)
+    {
+        Console.Clear();
+        MostrarMensajeColor(ConsoleColor.Yellow, $"Listado del equipo: {equipo}");
+        Console.WriteLine();
+
+        try
+        {
+            List<Usuario> usuarios = miSistema.ListarUsuariosPorEquipo(equipo);
+            if (usuarios.Count == 0) throw new Exception("No se encontraron usuarios en ese equipo en el sistema");
+
+            foreach (Usuario u in usuarios)
+            {
+                Console.WriteLine(u);
+            }
+        }
+        catch (Exception ex)
+        {
+            MostrarError(ex.Message);
+        }
+        PressToContinue();
+    }
+
+    #endregion
+
 
     #region Métodos de lectura de datos por consola
     static string LeerTexto(string mensaje)

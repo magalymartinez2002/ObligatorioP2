@@ -36,6 +36,22 @@ namespace Dominio
 
         }
 
+        public int CalcularPagosPendientes()
+        {
+            int pagosPendientes = 0;
+            DateTime fechaActual = DateTime.Today;
+            if (_fechaFin > fechaActual)
+            {
+                pagosPendientes = ((_fechaFin.Year - fechaActual.Year) * 12) + (_fechaFin.Month - fechaActual.Month);
+            }
+            return pagosPendientes;
+        }
+
+        public override bool PagoEsteMes(DateTime fecha)
+        {
+            return fecha >= _fechaInicio && fecha <= _fechaFin;
+        }
+
 
         public int CalcularRecargo()
         {
@@ -51,7 +67,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            return $"{_fechaInicio} - {_fechaFin} - Monto del Pago: {_montoDelPago} - Recargo: {_recargo}% - Monto Total: {CalcularMontoTotal()}";
+            return $"Pago Recurrente: {_id} - {_metodoDePago}- Pagos pendientes: {CalcularPagosPendientes()} - Monto del Pago: {_montoDelPago} - Recargo: {_recargo}% - Monto Total: {CalcularMontoTotal()}";
         }
     }
 }

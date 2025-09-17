@@ -69,19 +69,39 @@ namespace Dominio
             t.Validar();
             _tiposDeGasto.Add(t);
         }
-
-        //Listado de Pagos por mes
-
+        //Listados
         public List<Pago> ListarPagosPorMes(DateTime fecha)
         {
             List<Pago> pagosDelMes = new List<Pago>();
             foreach (Pago p in _pagos)
             {
-                //CMOPLETAR
+                if (p.PagoEsteMes(fecha)) pagosDelMes.Add(p);
             }
-
-
             return pagosDelMes;
+        }
+
+        public List<Pago> ListarPagosPorUsuario(string email)
+        {
+            Usuario usuario= BuscarUsuarioPorEmail(email);
+            if (usuario == null) throw new Exception("No se encontro el usuario");
+            List<Pago> pagosDelUsuario = new List<Pago>();
+            foreach (Pago p in _pagos)
+            {
+                if (p.Usuario.Email == usuario.Email) pagosDelUsuario.Add(p);
+            }
+            return pagosDelUsuario;
+        }
+
+        public List<Usuario> ListarUsuariosPorEquipo(string nombreEquipo)
+        {
+            Equipo equipo= BuscarEquipoPorNombre(nombreEquipo);
+            if (equipo == null) throw new Exception("No se encontro el equipo");
+            List<Usuario> usuariosDelEquipo = new List<Usuario>();
+            foreach (Usuario u in _usuarios)
+            {
+                if (u.Equipo.Nombre == equipo.Nombre) usuariosDelEquipo.Add(u);
+            }
+            return usuariosDelEquipo;
         }
 
 
@@ -97,7 +117,7 @@ namespace Dominio
             string email= $"{nombre}{apellido}@laEmpresa.com";
 
             int numero=1;
-            while (ExisteUsuarioConEmail(email))
+            while (BuscarUsuarioPorEmail(email)!=null)
             {
                 email=$"{nombre}{apellido}{numero}@laEmpresa.com";
                 numero++;
@@ -107,7 +127,7 @@ namespace Dominio
 
         }
 
-
+/*
         public bool ExisteUsuarioConEmail(string email)
         {
             if (string.IsNullOrEmpty(email)) throw new Exception("El email no puede ser nulo o estar vacio");
@@ -117,35 +137,38 @@ namespace Dominio
             }
             return false;
         }
-
+*/
         public Usuario BuscarUsuarioPorEmail(string email)
         {
+            Usuario usuarioBuscado = null;
             if (string.IsNullOrEmpty(email)) throw new Exception("El email no puede ser nulo o estar vacio");
             foreach (Usuario u in _usuarios)
             {
-                if (u.Email.Contains(email)) return u;
+                if (u.Email.Contains(email)) usuarioBuscado= u;
             }
-            return null;
+            return usuarioBuscado;
         }
 
         public Equipo BuscarEquipoPorNombre(string nombre)
         {
+            Equipo equipoBuscado = null;
             if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
             foreach (Equipo e in _equipos)
             {
-                if (e.Nombre.Contains(nombre)) return e;
+                if (e.Nombre.Contains(nombre)) equipoBuscado= e;
             }
-            return null;
+            return equipoBuscado;
         }
 
         public TipoDeGasto BuscarTipoDeGasto(string nombre)
         {
+            TipoDeGasto tipoBuscado = null;
             if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
             foreach (TipoDeGasto t in _tiposDeGasto)
             {
-                if (t.Nombre.Contains(nombre)) return t;
+                if (t.Nombre.Contains(nombre)) tipoBuscado= t;
             }
-            return null;
+            return tipoBuscado;
         }
 
 
@@ -215,6 +238,7 @@ namespace Dominio
 
         private void PrecargarPagos()
         {
+
 
         }
 

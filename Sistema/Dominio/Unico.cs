@@ -31,16 +31,23 @@ namespace Dominio
             return descuentoTotal;
         }
 
+       
+
         public override double CalcularMontoTotal()
         {
             double montoTotal = _monto - (_monto * _descuento / 100);
             return montoTotal;
         }
 
+        public override bool PagoEsteMes(DateTime fecha)
+        {
+            return _fecha.Month == fecha.Month && _fecha.Year == fecha.Year;
+        }
+
 
         public override string ToString()
         {
-            return base.ToString + $"{_fecha} - Recibo N° {_numRecibo} - Monto: {_monto} - Descuento: {_descuento}% - Monto Total: {CalcularMontoTotal()}";
+            return   $" Pago Unico: {_id}- {_metodoDePago} - {_fecha} - Recibo N° {_numRecibo} - Monto: {_monto} - Descuento: {_descuento}% - Monto Total: {CalcularMontoTotal()}";
         }
     }
 

@@ -18,7 +18,7 @@ namespace Dominio
         protected Usuario _usuario;
 
 
-        public Pago( string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario)
+        public Pago(string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario)
         {
             _id = s_ultiID++;
             _descripcion = descripcion;
@@ -27,23 +27,20 @@ namespace Dominio
             _usuario = usuario;
         }
 
-     
+        public Usuario Usuario{  get{return _usuario;} }
+
 
         public virtual void Validar()
         {
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede ser nula o estar vacia");
-           
+
             if (_tipoDeGasto == null) throw new Exception("El tipo de gasto no puede ser nulo");
             if (_usuario == null) throw new Exception("El usuario no puede ser nulo");
-        } 
-
-        public override string ToString()
-        {
-            return $"{_descripcion} - {_metodoDePago} - {_tipoDeGasto} - {_usuario}";
         }
 
-
         public abstract double CalcularMontoTotal();
+
+        public abstract bool PagoEsteMes(DateTime fecha);
     }
 
 

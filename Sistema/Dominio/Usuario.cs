@@ -32,6 +32,11 @@ namespace Dominio
             get { return _email; }
         }
 
+        public Equipo Equipo
+        {
+            get { return _equipo; }
+        }
+
 
 
         public void Validar()
@@ -58,7 +63,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            return $"{_noombre} {_apellido} - {_email} - {_equipo.ToString} ";
+            return $"{_noombre} {_apellido} - {_email} - {_equipo.Nombre} ";
         }
     }
 }
