@@ -97,6 +97,10 @@ internal class Program
     }
 
 
+
+
+    #region Listados y creacion de usuarios, equipos y pagos
+
     static void CrearUsuario()
     {
         Console.Clear();
@@ -108,14 +112,14 @@ internal class Program
             string apellido = LeerTexto("Ingrese el apellido: ");
             string contrasenia = LeerTexto("Ingrese la contrasenia: ");
             string equipoNombre = LeerTexto("Ingrese el nombre del equipo: ");
-            DateTime fechaIngreso= LeerFecha("Ingrese la fecha de ingreso");
+            DateTime fechaIngreso = LeerFecha("Ingrese la fecha de ingreso");
 
-            Equipo equipo= miSistema.BuscarEquipoPorNombre(equipoNombre);
+            Equipo equipo = miSistema.BuscarEquipoPorNombre(equipoNombre);
             string email = miSistema.CrearEmailUsuario(nombre, apellido);
 
-            miSistema.CrearUsuario(new Usuario(nombre, apellido, contrasenia, email,equipo,fechaIngreso));
+            miSistema.CrearUsuario(new Usuario(nombre, apellido, contrasenia, email, equipo, fechaIngreso));
 
-            MostrarExito("Se ha creado el usuario correctamente. El email generado es: "+email);
+            MostrarExito("Se ha creado el usuario correctamente");
 
         }
         catch (Exception ex)
@@ -127,8 +131,6 @@ internal class Program
         }
         PressToContinue();
     }
-
-    #region Listados
 
     static void ListarUsuarios()
     {
@@ -234,6 +236,21 @@ internal class Program
         return datos;
     }
 
+    static DateTime LeerFecha(string mensaje)
+    {
+        bool exito = false;
+        DateTime fecha = new DateTime();
+        while (!exito)
+        {
+            Console.Write(mensaje + " [DD/MM/YYYY]:");
+            exito = DateTime.TryParse(Console.ReadLine(), out fecha);
+
+            if (!exito) MostrarError("ERROR: Debe ingresar una fecha en formato DD/MM/YYYY");
+        }
+        return fecha;
+    }
+    /*
+
     static int LeerEntero(string mensaje)
     {
         int numeroEntero = 0;
@@ -250,20 +267,6 @@ internal class Program
         }
 
         return numeroEntero;
-    }
-
-    static DateTime LeerFecha(string mensaje)
-    {
-        bool exito = false;
-        DateTime fecha = new DateTime();
-        while (!exito)
-        {
-            Console.Write(mensaje + " [DD/MM/YYYY]:");
-            exito = DateTime.TryParse(Console.ReadLine(), out fecha);
-
-            if (!exito) MostrarError("ERROR: Debe ingresar una fecha en formato DD/MM/YYYY");
-        }
-        return fecha;
     }
 
     static bool LeerBooleano(string mensaje)
@@ -290,7 +293,7 @@ internal class Program
 
         return resultado;
     }
-
+    */
    
 
     static void MostrarMensajeColor(ConsoleColor color1, string mensaje)

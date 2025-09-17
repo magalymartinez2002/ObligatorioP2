@@ -223,6 +223,10 @@ namespace Dominio
 
         private void PrecargarTiposDeGasto()
         {
+
+            CrearTipoDeGasto(new TipoDeGasto("Gastos Personales", "Alimentacion"));
+            CrearTipoDeGasto(new TipoDeGasto("Variables", "Consumos"));
+            CrearTipoDeGasto(new TipoDeGasto("Gym", "Entrenamiento"));
             
             CrearTipoDeGasto(new TipoDeGasto("Netflix", "Plataforma digital"));
             CrearTipoDeGasto(new TipoDeGasto("Spotify", "Plataforma digital"));
@@ -239,6 +243,33 @@ namespace Dominio
         private void PrecargarPagos()
         {
 
+            CrearPago(new Unico(DateTime.Today, 1234, 500, "Heladeria", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
+
+
+
+            // Pagos de Magaly (Sistemas)
+            CrearPago(new Unico(DateTime.Today, 1235, 1200, "Disco", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-2), 1236, 800, "La Pasiva", MetodoDePago.CREDITO, BuscarTipoDeGasto("Restaurante"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
+
+            // Pagos de Juan (Sistemas)
+            CrearPago(new Unico(DateTime.Today.AddDays(-3), 1237, 1500, "Movistar", MetodoDePago.CREDITO, BuscarTipoDeGasto("Internet"), BuscarUsuarioPorEmail("juaper@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today, 1238, 4000, "Zara", MetodoDePago.DEBITO, BuscarTipoDeGasto("Ropa"), BuscarUsuarioPorEmail("juaper@laEmpresa.com")));
+
+            // Pagos de Lucia (Sistemas)
+            CrearPago(new Unico(DateTime.Today.AddDays(-7), 1239, 950, "Antel", MetodoDePago.DEBITO, BuscarTipoDeGasto("Luz"), BuscarUsuarioPorEmail("lucfer@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today, 1240, 500, "Uber", MetodoDePago.CREDITO, BuscarTipoDeGasto("Transporte"), BuscarUsuarioPorEmail("lucfer@laEmpresa.com")));
+
+            // Pagos de Carolina (Contabilidad)
+            CrearPago(new Unico(DateTime.Today.AddDays(-1), 1241, 300, "Netflix", MetodoDePago.DEBITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("carsua@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today, 1242, 250, "Spotify", MetodoDePago.CREDITO, BuscarTipoDeGasto("Spotify"), BuscarUsuarioPorEmail("carsua@laEmpresa.com")));
+
+            // Pagos de Gonzalo (Marketing)
+            CrearPago(new Unico(DateTime.Today.AddDays(-5), 1243, 2000, "Ta-Ta", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("gonram@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today, 1244, 750, "Petrobras", MetodoDePago.DEBITO, BuscarTipoDeGasto("Gasolina"), BuscarUsuarioPorEmail("gonram@laEmpresa.com")));
+
+            // Pagos de Camila (Recursos Humanos)
+            CrearPago(new Unico(DateTime.Today, 1245, 1000, "Macri Gym", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Gym"), BuscarUsuarioPorEmail("camtor@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-10), 1246, 1300, "Devoto", MetodoDePago.CREDITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("camtor@laEmpresa.com")));
 
         }
 
