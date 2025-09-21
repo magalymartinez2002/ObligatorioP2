@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Dominio
         private int _recargo;
 
 
-        public Recurrente(DateTime fechaInicio, DateTime fechaFin, double montoDelPago, int recargo, string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario) : base(descripcion, metodoDePago, tipoDeGasto, usuario)
+        public Recurrente(DateTime fechaInicio, DateTime fechaFin, double montoDelPago, string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario) : base(descripcion, metodoDePago, tipoDeGasto, usuario)
         {
             _fechaInicio = fechaInicio;
             _fechaFin = fechaFin;
@@ -26,11 +27,10 @@ namespace Dominio
 
         public override double CalcularMontoTotal()
         {
-            // if (_fechaFin.) _fechaFin=DateTime.Today; si no tiene fecha fin, toma la fecha actual
-            int meses = ((_fechaFin.Year - _fechaInicio.Year) * 12) + _fechaFin.Month - _fechaInicio.Month + 1;
+            if (_fechaFin == DateTime.MinValue) _fechaFin = DateTime.Today;
+
+            int meses = CalcularMeses(_fechaFin, _fechaInicio);
             double montoTotal = (_montoDelPago * _recargo / 100) * meses;
-
-
 
             return montoTotal;
 
@@ -40,11 +40,21 @@ namespace Dominio
         {
             int pagosPendientes = 0;
             DateTime fechaActual = DateTime.Today;
+
+            
             if (_fechaFin > fechaActual)
             {
-                pagosPendientes = ((_fechaFin.Year - fechaActual.Year) * 12) + (_fechaFin.Month - fechaActual.Month);
+                pagosPendientes= CalcularMeses(_fechaFin, fechaActual);
             }
             return pagosPendientes;
+        }
+
+
+        private int CalcularMeses(DateTime fechaFin, DateTime fechaInicio)
+        {
+            int  meses = (fechaFin.Year - fechaInicio.Year) * 12 + (fechaFin.Month - fechaInicio.Month);
+            
+            return meses;
         }
 
         public override bool PagoEsteMes(DateTime fecha)
@@ -55,11 +65,16 @@ namespace Dominio
 
         public int CalcularRecargo()
         {
+           
             int recargoTotal = 3;
-            int meses = ((_fechaFin.Year - _fechaInicio.Year) * 12) + _fechaFin.Month - _fechaInicio.Month + 1;
+            DateTime fecha = _fechaFin;
 
-            if (meses>=10) recargoTotal = 10;
-            else if (meses>=6) recargoTotal = 5;
+           if(_fechaFin == DateTime.MinValue) fecha=DateTime.Today;
+            int meses = CalcularMeses(fecha,_fechaInicio);
+
+
+            if (meses >= 10) recargoTotal = 10;
+            else if (meses >= 6) recargoTotal = 5;
 
 
             return recargoTotal;
@@ -67,7 +82,11 @@ namespace Dominio
 
         public override string ToString()
         {
-            return $"Pago Recurrente: {_id} - {_metodoDePago}- Pagos pendientes: {CalcularPagosPendientes()} - Monto del Pago: {_montoDelPago} - Recargo: {_recargo}% - Monto Total: {CalcularMontoTotal()}";
+            string s = "";
+            if (_fechaFin == DateTime.MinValue) s= $"Pago Recurrente: {_id} - Metodo de Pago:- {_metodoDePago}- Monto Total: {CalcularMontoTotal()} - Recurrente ";
+            else s= $"Pago Recurrente: {_id} - Metodo de Pago: -{_metodoDePago}- Monto Total: {CalcularMontoTotal()} -  Pagos pendientes: {CalcularPagosPendientes()}";
+
+            return s;
         }
     }
 }

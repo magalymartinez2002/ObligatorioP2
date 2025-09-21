@@ -127,17 +127,6 @@ namespace Dominio
 
         }
 
-/*
-        public bool ExisteUsuarioConEmail(string email)
-        {
-            if (string.IsNullOrEmpty(email)) throw new Exception("El email no puede ser nulo o estar vacio");
-            foreach (Usuario u in _usuarios)
-            {
-                if (u.Email.Contains(email)) return true;
-            }
-            return false;
-        }
-*/
         public Usuario BuscarUsuarioPorEmail(string email)
         {
             Usuario usuarioBuscado = null;
@@ -244,33 +233,55 @@ namespace Dominio
         {
 
             CrearPago(new Unico(DateTime.Today, 1234, 500, "Heladeria", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2021, 06, 12), DateTime.MinValue, 300, "Netflix", MetodoDePago.CREDITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("paosil@laEmpresa.com")));
 
 
-
-            // Pagos de Magaly (Sistemas)
-            CrearPago(new Unico(DateTime.Today, 1235, 1200, "Disco", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
-            CrearPago(new Unico(DateTime.Today.AddDays(-2), 1236, 800, "La Pasiva", MetodoDePago.CREDITO, BuscarTipoDeGasto("Restaurante"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
-
-            // Pagos de Juan (Sistemas)
-            CrearPago(new Unico(DateTime.Today.AddDays(-3), 1237, 1500, "Movistar", MetodoDePago.CREDITO, BuscarTipoDeGasto("Internet"), BuscarUsuarioPorEmail("juaper@laEmpresa.com")));
-            CrearPago(new Unico(DateTime.Today, 1238, 4000, "Zara", MetodoDePago.DEBITO, BuscarTipoDeGasto("Ropa"), BuscarUsuarioPorEmail("juaper@laEmpresa.com")));
-
-            // Pagos de Lucia (Sistemas)
-            CrearPago(new Unico(DateTime.Today.AddDays(-7), 1239, 950, "Antel", MetodoDePago.DEBITO, BuscarTipoDeGasto("Luz"), BuscarUsuarioPorEmail("lucfer@laEmpresa.com")));
-            CrearPago(new Unico(DateTime.Today, 1240, 500, "Uber", MetodoDePago.CREDITO, BuscarTipoDeGasto("Transporte"), BuscarUsuarioPorEmail("lucfer@laEmpresa.com")));
-
-            // Pagos de Carolina (Contabilidad)
-            CrearPago(new Unico(DateTime.Today.AddDays(-1), 1241, 300, "Netflix", MetodoDePago.DEBITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("carsua@laEmpresa.com")));
-            CrearPago(new Unico(DateTime.Today, 1242, 250, "Spotify", MetodoDePago.CREDITO, BuscarTipoDeGasto("Spotify"), BuscarUsuarioPorEmail("carsua@laEmpresa.com")));
-
-            // Pagos de Gonzalo (Marketing)
-            CrearPago(new Unico(DateTime.Today.AddDays(-5), 1243, 2000, "Ta-Ta", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("gonram@laEmpresa.com")));
-            CrearPago(new Unico(DateTime.Today, 1244, 750, "Petrobras", MetodoDePago.DEBITO, BuscarTipoDeGasto("Gasolina"), BuscarUsuarioPorEmail("gonram@laEmpresa.com")));
-
-            // Pagos de Camila (Recursos Humanos)
-            CrearPago(new Unico(DateTime.Today, 1245, 1000, "Macri Gym", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Gym"), BuscarUsuarioPorEmail("camtor@laEmpresa.com")));
-            CrearPago(new Unico(DateTime.Today.AddDays(-10), 1246, 1300, "Devoto", MetodoDePago.CREDITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("camtor@laEmpresa.com")));
-
+            // ------------------ PAGOS ÚNICOS (17) ------------------
+            CrearPago(new Unico(DateTime.Today, 1001, 500, "Heladeria", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-1), 1002, 1200, "Farmacia", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("juaper@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-2), 1003, 800, "Restaurante", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Restaurante"), BuscarUsuarioPorEmail("lucfer@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-3), 1004, 2000, "Tienda Ropa", MetodoDePago.DEBITO, BuscarTipoDeGasto("Ropa"), BuscarUsuarioPorEmail("marlop@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-4), 1005, 3500, "Electrodomésticos", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("sofgar@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-5), 1006, 1000, "Taxi", MetodoDePago.DEBITO, BuscarTipoDeGasto("Transporte"), BuscarUsuarioPorEmail("dierod@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-6), 1007, 450, "Cine", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Gastos Personales"), BuscarUsuarioPorEmail("carsua@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-7), 1008, 2500, "Supermercado", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("paosil@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-8), 1009, 1500, "Gasolina", MetodoDePago.DEBITO, BuscarTipoDeGasto("Gasolina"), BuscarUsuarioPorEmail("feralv@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-9), 1010, 600, "Comida rápida", MetodoDePago.CREDITO, BuscarTipoDeGasto("Restaurante"), BuscarUsuarioPorEmail("laudom@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-10), 1011, 900, "Cafetería", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Restaurante"), BuscarUsuarioPorEmail("gonram@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-11), 1012, 5000, "Viaje", MetodoDePago.CREDITO, BuscarTipoDeGasto("Transporte"), BuscarUsuarioPorEmail("valcab@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-12), 1013, 200, "Panadería", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("rodvaz@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-13), 1014, 300, "Verdulería", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("flomor@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-14), 1015, 700, "Farmacia", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("sebcas@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-15), 1016, 4000, "Celular", MetodoDePago.DEBITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("julrio@laEmpresa.com")));
+            CrearPago(new Unico(DateTime.Today.AddDays(-16), 1017, 1800, "Perfumería", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Gastos Personales"), BuscarUsuarioPorEmail("matort@laEmpresa.com")));
+            // ------------------ PAGOS RECURRENTES (25) ------------------
+            // ---- 20 activos (FechaFin = DateTime.MinValue) ----
+            CrearPago(new Recurrente(new DateTime(2023, 01, 10), DateTime.MinValue, 300, "Netflix", MetodoDePago.CREDITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("camtor@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 02, 15), DateTime.MinValue, 200, "Spotify", MetodoDePago.CREDITO, BuscarTipoDeGasto("Spotify"), BuscarUsuarioPorEmail("nicgom@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 03, 05), DateTime.MinValue, 1500, "Luz", MetodoDePago.DEBITO, BuscarTipoDeGasto("Luz"), BuscarUsuarioPorEmail("agumor@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 04, 01), DateTime.MinValue, 1200, "Agua", MetodoDePago.DEBITO, BuscarTipoDeGasto("Agua"), BuscarUsuarioPorEmail("brusan@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 05, 20), DateTime.MinValue, 1800, "Internet", MetodoDePago.CREDITO, BuscarTipoDeGasto("Internet"), BuscarUsuarioPorEmail("danpri@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 06, 11), DateTime.MinValue, 3500, "Alquiler", MetodoDePago.DEBITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 07, 08), DateTime.MinValue, 700, "Gimnasio", MetodoDePago.EFECTIVO, BuscarTipoDeGasto("Gym"), BuscarUsuarioPorEmail("juaper@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 08, 17), DateTime.MinValue, 250, "Disney+", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("lucfer@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 09, 09), DateTime.MinValue, 400, "Amazon Prime", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("marlop@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 10, 02), DateTime.MinValue, 1000, "Seguro Auto", MetodoDePago.DEBITO, BuscarTipoDeGasto("Transporte"), BuscarUsuarioPorEmail("sofgar@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 10, 18), DateTime.MinValue, 2200, "Seguro Salud", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("dierod@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 11, 04), DateTime.MinValue, 600, "HBO Max", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("carsua@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 11, 20), DateTime.MinValue, 3000, "Guardería", MetodoDePago.DEBITO, BuscarTipoDeGasto("Gastos Personales"), BuscarUsuarioPorEmail("paosil@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2023, 12, 01), DateTime.MinValue, 900, "Clases Inglés", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("feralv@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2024, 01, 10), DateTime.MinValue, 2500, "Teléfono", MetodoDePago.DEBITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("laudom@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2024, 02, 15), DateTime.MinValue, 500, "Paramount+", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("gonram@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2024, 03, 05), DateTime.MinValue, 1600, "Gas", MetodoDePago.DEBITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("valcab@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2024, 04, 01), DateTime.MinValue, 2000, "Hogar", MetodoDePago.DEBITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("rodvaz@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2024, 05, 20), DateTime.MinValue, 800, "Revista Online", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("flomor@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2024, 06, 10), DateTime.MinValue, 450, "Dropbox", MetodoDePago.CREDITO, BuscarTipoDeGasto("Variables"), BuscarUsuarioPorEmail("sebcas@laEmpresa.com")));
+            // ---- 5 finalizados (con FechaFin distinta de DateTime.MinValue) ----
+            CrearPago(new Recurrente(new DateTime(2021, 06, 12), new DateTime(2023, 06, 12), 300, "Netflix", MetodoDePago.CREDITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("julrio@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2021, 07, 01), new DateTime(2022, 07, 01), 200, "Spotify", MetodoDePago.CREDITO, BuscarTipoDeGasto("Spotify"), BuscarUsuarioPorEmail("matort@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2021, 08, 05), new DateTime(2023, 08, 05), 1500, "Luz", MetodoDePago.DEBITO, BuscarTipoDeGasto("Luz"), BuscarUsuarioPorEmail("camtor@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2021, 09, 10), new DateTime(2022, 09, 10), 1800, "Internet", MetodoDePago.CREDITO, BuscarTipoDeGasto("Internet"), BuscarUsuarioPorEmail("nicgom@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2021, 10, 15), new DateTime(2022, 10, 15), 1200, "Agua", MetodoDePago.DEBITO, BuscarTipoDeGasto("Agua"), BuscarUsuarioPorEmail("agumor@laEmpresa.com")));
         }
 
         #endregion

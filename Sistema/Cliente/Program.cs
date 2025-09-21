@@ -73,9 +73,9 @@ internal class Program
     static void MostrarMenu()
     {
         Console.Clear();
-       // MostrarMensajeColor(ConsoleColor.Cyan, "****************");
-      //  MostrarMensajeColor(ConsoleColor.Cyan, "      MENU      ");
-      //  MostrarMensajeColor(ConsoleColor.Cyan, "****************");
+        MostrarMensajeColor(ConsoleColor.Magenta, "****************");
+        MostrarMensajeColor(ConsoleColor.Magenta, "      MENU      ");
+        MostrarMensajeColor(ConsoleColor.Magenta, "****************");
         Console.WriteLine();
         Console.WriteLine("1 - Listar Usuarios");
         Console.WriteLine("2 - Listar Pagos por un usuario");
@@ -87,9 +87,9 @@ internal class Program
     static void MostrarMenuEquipo()
     {
         Console.Clear();
-        // MostrarMensajeColor(ConsoleColor.Cyan, "************************");
-        //  MostrarMensajeColor(ConsoleColor.Cyan, "      MENU  EQUIPO    ");
-        //  MostrarMensajeColor(ConsoleColor.Cyan, "***********************");
+        MostrarMensajeColor(ConsoleColor.Magenta, "************************");
+        MostrarMensajeColor(ConsoleColor.Magenta, "      MENU  EQUIPO    ");
+        MostrarMensajeColor(ConsoleColor.Magenta, "***********************");
         Console.WriteLine();
         Console.WriteLine("1 - Listar todos los Equipos");
         Console.WriteLine("2 - Listar Usuarios por Equipos");
@@ -113,6 +113,11 @@ internal class Program
             string contrasenia = LeerTexto("Ingrese la contrasenia: ");
             string equipoNombre = LeerTexto("Ingrese el nombre del equipo: ");
             DateTime fechaIngreso = LeerFecha("Ingrese la fecha de ingreso");
+
+            if(string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
+            if (string.IsNullOrEmpty(apellido)) throw new Exception("El apellido no puede ser nulo o estar vacio");
+            if (string.IsNullOrEmpty(contrasenia)) throw new Exception("La contraseña no puede ser nulo o estar vacio");
+            if (string.IsNullOrEmpty(equipoNombre)) throw new Exception("El nombre del equipo no puede ser nulo o estar vacio");
 
             Equipo equipo = miSistema.BuscarEquipoPorNombre(equipoNombre);
             string email = miSistema.CrearEmailUsuario(nombre, apellido);

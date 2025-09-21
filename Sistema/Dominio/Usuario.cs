@@ -51,11 +51,9 @@ namespace Dominio
 
             if (string.IsNullOrEmpty(_email)) throw new Exception("El email no puede ser nulo o estar vacio");
 
-            else if (!_email.Contains("@") || !_email.Contains(".")) throw new Exception("El email debe contener '@' y '.'");
-
             if (_equipo == null) throw new Exception("El equipo no puede ser nulo");
 
-            if (_fechaIngreso > DateTime.Now) throw new Exception("La fecha de ingreso no puede ser mayor a la fecha actual");
+            if (_fechaIngreso > DateTime.Today) throw new Exception("La fecha de ingreso no puede ser mayor a la fecha actual");
 
 
         }
