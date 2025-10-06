@@ -84,7 +84,7 @@ namespace Dominio
         {
             string s = "";
             if (_fechaFin == DateTime.MinValue) s= $"Pago Recurrente: {_id} - Metodo de Pago:- {_metodoDePago}- Monto Total: {CalcularMontoTotal()} - Recurrente ";
-            else s= $"Pago Recurrente: {_id} - Metodo de Pago: -{_metodoDePago}- Monto Total: {CalcularMontoTotal()} -  Pagos pendientes: {CalcularPagosPendientes()}";
+            else s= $" Pago Recurrente: {_id} - Metodo de Pago: -{_metodoDePago}- Monto Total: {CalcularMontoTotal()} -  Pagos pendientes: {CalcularPagosPendientes()}";
 
             return s;
         }

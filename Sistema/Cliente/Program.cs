@@ -163,7 +163,7 @@ internal class Program
     static void ListarPagosPorUsuario(string email)
     {
         Console.Clear();
-        MostrarMensajeColor(ConsoleColor.Yellow, "Listado de todos los Pagos");
+        MostrarMensajeColor(ConsoleColor.Yellow, $"Listado de todos los Pagos de {email}");
         Console.WriteLine();
 
         try
@@ -176,6 +176,7 @@ internal class Program
             {
                 Console.WriteLine(p);
             }
+          
         }
         catch (Exception ex)
         {

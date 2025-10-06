@@ -47,7 +47,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            return   $" Pago Unico: {_id}- Metodo de Pago: {_metodoDePago} -  Monto Total: {CalcularMontoTotal()}";
+            return   $" Pago Unico: {_id } - Metodo de Pago: {_metodoDePago} -  Monto Total: {CalcularMontoTotal()}";
         }
     }
 

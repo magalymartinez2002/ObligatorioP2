@@ -131,10 +131,14 @@ namespace Dominio
         {
             Usuario usuarioBuscado = null;
             if (string.IsNullOrEmpty(email)) throw new Exception("El email no puede ser nulo o estar vacio");
-            foreach (Usuario u in _usuarios)
+            int i = 0;
+
+            while(i< _usuarios.Count && usuarioBuscado==null)
             {
-                if (u.Email.Contains(email)) usuarioBuscado= u;
+                if (_usuarios[i].Email == email) usuarioBuscado = _usuarios[i];
+                i++;
             }
+
             return usuarioBuscado;
         }
 
@@ -142,9 +146,11 @@ namespace Dominio
         {
             Equipo equipoBuscado = null;
             if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
-            foreach (Equipo e in _equipos)
+            int i = 0;
+            while (i < _equipos.Count && equipoBuscado == null)
             {
-                if (e.Nombre.Contains(nombre)) equipoBuscado= e;
+                if (_equipos[i].Nombre.ToLower() == nombre.ToLower()) equipoBuscado = _equipos[i];
+                i++;
             }
             return equipoBuscado;
         }
@@ -153,9 +159,11 @@ namespace Dominio
         {
             TipoDeGasto tipoBuscado = null;
             if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
-            foreach (TipoDeGasto t in _tiposDeGasto)
+            int i = 0;
+            while(i < _tiposDeGasto.Count && tipoBuscado == null)
             {
-                if (t.Nombre.Contains(nombre)) tipoBuscado= t;
+                if (_tiposDeGasto[i].Nombre.ToLower() == nombre.ToLower()) tipoBuscado = _tiposDeGasto[i];
+                i++;
             }
             return tipoBuscado;
         }
