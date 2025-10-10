@@ -70,19 +70,11 @@ namespace Dominio
             _tiposDeGasto.Add(t);
         }
         //Listados
-        public List<Pago> ListarPagosPorMes(DateTime fecha)
-        {
-            List<Pago> pagosDelMes = new List<Pago>();
-            foreach (Pago p in _pagos)
-            {
-                if (p.PagoEsteMes(fecha)) pagosDelMes.Add(p);
-            }
-            return pagosDelMes;
-        }
+      
 
-        public List<Pago> ListarPagosPorUsuario(string email)
+        public List<Pago> ListarPagosPorUsuario(Usuario usuario)
         {
-            Usuario usuario= BuscarUsuarioPorEmail(email);
+            
             if (usuario == null) throw new Exception("No se encontro el usuario");
             List<Pago> pagosDelUsuario = new List<Pago>();
             foreach (Pago p in _pagos)
@@ -92,10 +84,9 @@ namespace Dominio
             return pagosDelUsuario;
         }
 
-        public List<Usuario> ListarUsuariosPorEquipo(string nombreEquipo)
+        public List<Usuario> ListarUsuariosPorEquipo(Equipo equipo)
         {
-            Equipo equipo= BuscarEquipoPorNombre(nombreEquipo);
-            if (equipo == null) throw new Exception("No se encontro el equipo");
+            if (equipo == null) throw new Exception("El equipo no puede ser nulo");    
             List<Usuario> usuariosDelEquipo = new List<Usuario>();
             foreach (Usuario u in _usuarios)
             {
@@ -187,6 +178,7 @@ namespace Dominio
            
             // Sistemas
             CrearUsuario(new Usuario("Magaly", "Martinez", "a123456.", CrearEmailUsuario("Magaly", "Martinez"), BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario("Victoria", "Garcia", "a123456.", CrearEmailUsuario("Victoria", "Garcia"), BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
             CrearUsuario(new Usuario("Juan", "Perez", "b123456.", CrearEmailUsuario("Juan", "Perez"), BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
             CrearUsuario(new Usuario("Lucia", "Fernandez", "c123456.", CrearEmailUsuario("Lucia", "Fernandez"), BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
             CrearUsuario(new Usuario("Martin", "Lopez", "d123456.", CrearEmailUsuario("Martin", "Lopez"), BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
@@ -241,7 +233,7 @@ namespace Dominio
         {
 
             CrearPago(new Unico(DateTime.Today, 1234, 500, "Heladeria", MetodoDePago.DEBITO, BuscarTipoDeGasto("Supermercado"), BuscarUsuarioPorEmail("magmar@laEmpresa.com")));
-            CrearPago(new Recurrente(new DateTime(2021, 06, 12), DateTime.MinValue, 300, "Netflix", MetodoDePago.CREDITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("paosil@laEmpresa.com")));
+            CrearPago(new Recurrente(new DateTime(2021, 06, 12), new DateTime(2026, 06, 12), 300, "Netflix", MetodoDePago.CREDITO, BuscarTipoDeGasto("Netflix"), BuscarUsuarioPorEmail("paosil@laEmpresa.com")));
 
 
             // ------------------ PAGOS ÚNICOS (17) ------------------

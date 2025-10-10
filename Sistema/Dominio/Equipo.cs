@@ -27,7 +27,7 @@ namespace Dominio
 
         public void Validar()
         {
-            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
+            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacio");
         }
 
         public override string ToString()

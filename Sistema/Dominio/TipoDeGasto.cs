@@ -20,7 +20,7 @@ namespace Dominio
 
         public string Nombre
         {
-                       get { return _nombre; }
+            get { return _nombre; }
         }
 
         public void Validar()

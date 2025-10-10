@@ -33,29 +33,9 @@ internal class Program
 
                     break;
                 case "4":
-                    MostrarMenuEquipo();
-                    opcion = LeerTexto("Ingrese una opcion -> ");
+                   string equipo=LeerTexto("Ingrese el nombre del equipo: ");
+                   ListarUsuariosPorEquipo(equipo);
 
-                    switch (opcion)
-                    {
-                        case "1":
-                            ListarEquipos();
-                            
-                            break;
-                        case "2":
-                            string equipo=LeerTexto("Ingrese el nombre del equipo: ");
-                            ListarUsuariosPorEquipo(equipo);
-
-                            break;
-                     
-                        case "0":
-                            Console.WriteLine("Saliendo...");
-                            break;
-                        default:
-                            MostrarError("ERROR: Opcion inválida");
-                            PressToContinue();
-                            break;
-                    }
 
                     break;
                
@@ -78,24 +58,11 @@ internal class Program
         MostrarMensajeColor(ConsoleColor.Magenta, "****************");
         Console.WriteLine();
         Console.WriteLine("1 - Listar Usuarios");
-        Console.WriteLine("2 - Listar Pagos por un usuario");
+        Console.WriteLine("2 - Listar Pagos por usuario");
         Console.WriteLine("3 - Crear un Usuario");
-        Console.WriteLine("4 - Equipos");
+        Console.WriteLine("4 - Listar Usuarios por Equipo");
         Console.WriteLine("0 - Salir");
     }
-
-    static void MostrarMenuEquipo()
-    {
-        Console.Clear();
-        MostrarMensajeColor(ConsoleColor.Magenta, "************************");
-        MostrarMensajeColor(ConsoleColor.Magenta, "      MENU  EQUIPO    ");
-        MostrarMensajeColor(ConsoleColor.Magenta, "***********************");
-        Console.WriteLine();
-        Console.WriteLine("1 - Listar todos los Equipos");
-        Console.WriteLine("2 - Listar Usuarios por Equipos");
-        Console.WriteLine("0 - Salir");
-    }
-
 
 
 
@@ -109,17 +76,24 @@ internal class Program
         {
 
             string nombre = LeerTexto("Ingrese el nombre: ");
+            if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede estar vacio");
+
             string apellido = LeerTexto("Ingrese el apellido: ");
+            if (string.IsNullOrEmpty(apellido)) throw new Exception("El apellido no puede estar vacio");
+
             string contrasenia = LeerTexto("Ingrese la contrasenia: ");
+            if (string.IsNullOrEmpty(contrasenia)) throw new Exception("La contraseña no puede estar vacio");
+
             string equipoNombre = LeerTexto("Ingrese el nombre del equipo: ");
+            if (string.IsNullOrEmpty(equipoNombre)) throw new Exception("El nombre del equipo no puede estar vacio");
+
             DateTime fechaIngreso = LeerFecha("Ingrese la fecha de ingreso");
 
-            if(string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
-            if (string.IsNullOrEmpty(apellido)) throw new Exception("El apellido no puede ser nulo o estar vacio");
-            if (string.IsNullOrEmpty(contrasenia)) throw new Exception("La contraseña no puede ser nulo o estar vacio");
-            if (string.IsNullOrEmpty(equipoNombre)) throw new Exception("El nombre del equipo no puede ser nulo o estar vacio");
+
 
             Equipo equipo = miSistema.BuscarEquipoPorNombre(equipoNombre);
+            if (equipo == null) throw new Exception("No se encontro un equipo con ese nombre en el sistema");
+        
             string email = miSistema.CrearEmailUsuario(nombre, apellido);
 
             miSistema.CrearUsuario(new Usuario(nombre, apellido, contrasenia, email, equipo, fechaIngreso));
@@ -168,9 +142,13 @@ internal class Program
 
         try
         {
-            
-            List<Pago> pagos = miSistema.ListarPagosPorUsuario(email);
-            if (pagos.Count == 0) throw new Exception("No se encontraron pagos en el sistema");
+            if (string.IsNullOrEmpty(email)) throw new Exception("El email no puede ser nulo o estar vacio");
+
+            Usuario usuario = miSistema.BuscarUsuarioPorEmail(email);   
+            if (usuario == null) throw new Exception("No se encontro un usuario con ese email en el sistema");
+
+            List<Pago> pagos = miSistema.ListarPagosPorUsuario(usuario);
+            if (pagos.Count == 0) throw new Exception($"No se encontraron pagos en el sistema para {email}");
 
             foreach (Pago p in pagos)
             {
@@ -208,14 +186,19 @@ internal class Program
         PressToContinue();
     }
 
-    static void ListarUsuariosPorEquipo(string equipo)
+    static void ListarUsuariosPorEquipo(string nomEquipo)
     {
         Console.Clear();
-        MostrarMensajeColor(ConsoleColor.Yellow, $"Listado del equipo: {equipo}");
+        MostrarMensajeColor(ConsoleColor.Yellow, $"Listado del equipo: {nomEquipo}");
         Console.WriteLine();
 
         try
         {
+            if (string.IsNullOrEmpty(nomEquipo)) throw new Exception("El nombre del equipo no puede estar vacio");
+
+            Equipo equipo = miSistema.BuscarEquipoPorNombre(nomEquipo);
+            if (equipo == null) throw new Exception("No se encontro un equipo con ese nombre en el sistema");
+
             List<Usuario> usuarios = miSistema.ListarUsuariosPorEquipo(equipo);
             if (usuarios.Count == 0) throw new Exception("No se encontraron usuarios en ese equipo en el sistema");
 
@@ -255,52 +238,7 @@ internal class Program
         }
         return fecha;
     }
-    /*
-
-    static int LeerEntero(string mensaje)
-    {
-        int numeroEntero = 0;
-        Console.Write(mensaje);
-        string numeroString = Console.ReadLine();
-
-        while (!int.TryParse(numeroString, out numeroEntero))
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("ERROR");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($"Ingreso incorrecto. {mensaje}");
-            numeroString = Console.ReadLine();
-        }
-
-        return numeroEntero;
-    }
-
-    static bool LeerBooleano(string mensaje)
-    {
-        bool exito = false;
-        bool resultado = false;
-        while (!exito)
-        {
-            Console.Write(mensaje + " [S/N]:");
-            string booleanoString = Console.ReadLine();
-            if (booleanoString.ToUpper() == "S")
-            {
-                resultado = true;
-                exito = true;
-            }
-            else if (booleanoString.ToUpper() == "N")
-            {
-                resultado = false;
-                exito = true;
-            }
-
-            if (!exito) MostrarError("ERROR: Debe ingresar solo S o N");
-        }
-
-        return resultado;
-    }
-    */
-   
+    
 
     static void MostrarMensajeColor(ConsoleColor color1, string mensaje)
     {

@@ -10,16 +10,16 @@ namespace Dominio
     public class Usuario : IValidable
     {
 
-        private string _noombre;
+        private string _nombre;
         private string _apellido;
         private string _contrasenia;
         private string _email;
         private Equipo _equipo;
         private DateTime _fechaIngreso;
 
-        public Usuario(string noombre, string apellido, string contrasenia, string email, Equipo equipo, DateTime fechaIngreso)
+        public Usuario(string nombre, string apellido, string contrasenia, string email, Equipo equipo, DateTime fechaIngreso)
         {
-            _noombre = noombre;
+            _nombre = nombre;
             _apellido = apellido;
             _contrasenia = contrasenia;
             _email = email;
@@ -42,7 +42,7 @@ namespace Dominio
         public void Validar()
         {
 
-            if (string.IsNullOrEmpty(_noombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
+            if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
 
             if (string.IsNullOrEmpty(_apellido)) throw new Exception("El apellido no puede ser nulo o estar vacio");
 
@@ -61,7 +61,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            return $"{_noombre} {_apellido} - {_email} - {_equipo.Nombre} ";
+            return $"{_nombre} {_apellido} - {_email} - {_equipo.Nombre} ";
         }
     }
 }

@@ -11,15 +11,14 @@ namespace Dominio
     {
         private DateTime _fechaInicio;
         private DateTime _fechaFin;
-        private double _montoDelPago;
         private int _recargo;
 
 
-        public Recurrente(DateTime fechaInicio, DateTime fechaFin, double montoDelPago, string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario) : base(descripcion, metodoDePago, tipoDeGasto, usuario)
+        public Recurrente(DateTime fechaInicio, DateTime fechaFin, double monto, string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario) : base(descripcion, metodoDePago, tipoDeGasto, usuario, monto)
         {
             _fechaInicio = fechaInicio;
             _fechaFin = fechaFin;
-            _montoDelPago = montoDelPago;
+         
             _recargo = CalcularRecargo();
         }
 
@@ -30,7 +29,7 @@ namespace Dominio
             if (_fechaFin == DateTime.MinValue) _fechaFin = DateTime.Today;
 
             int meses = CalcularMeses(_fechaFin, _fechaInicio);
-            double montoTotal = (_montoDelPago * _recargo / 100) * meses;
+            double montoTotal = (_monto * _recargo / 100) * meses;
 
             return montoTotal;
 
@@ -57,13 +56,16 @@ namespace Dominio
             return meses;
         }
 
-        public override bool PagoEsteMes(DateTime fecha)
+       public override void Validar()
         {
-            return fecha >= _fechaInicio && fecha <= _fechaFin;
+            base.Validar();
+            if (_fechaInicio > DateTime.Today) throw new Exception("La fecha de inicio no puede ser mayor a la fecha actual");
+            if (_fechaFin != DateTime.MinValue && _fechaFin < _fechaInicio) throw new Exception("La fecha de fin no puede ser menor a la fecha de inicio");
+            
         }
 
 
-        public int CalcularRecargo()
+        private int CalcularRecargo()
         {
            
             int recargoTotal = 3;
@@ -82,9 +84,9 @@ namespace Dominio
 
         public override string ToString()
         {
-            string s = "";
-            if (_fechaFin == DateTime.MinValue) s= $"Pago Recurrente: {_id} - Metodo de Pago:- {_metodoDePago}- Monto Total: {CalcularMontoTotal()} - Recurrente ";
-            else s= $" Pago Recurrente: {_id} - Metodo de Pago: -{_metodoDePago}- Monto Total: {CalcularMontoTotal()} -  Pagos pendientes: {CalcularPagosPendientes()}";
+            string s = $" Pago: {_id} - Metodo de Pago: - {_metodoDePago} - Monto Total: {CalcularMontoTotal()}";
+            if (_fechaFin == DateTime.MinValue) s=s+ $" - Recurrente";
+            else s=s+ $" - Pagos pendientes: {CalcularPagosPendientes()}";
 
             return s;
         }
