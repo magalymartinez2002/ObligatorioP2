@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Clase Usuario
+
 namespace Dominio
 {
     public class Usuario : IValidable
@@ -17,12 +19,11 @@ namespace Dominio
         private Equipo _equipo;
         private DateTime _fechaIngreso;
 
-        public Usuario(string nombre, string apellido, string contrasenia, string email, Equipo equipo, DateTime fechaIngreso)
+        public Usuario(string nombre, string apellido, string contrasenia, Equipo equipo, DateTime fechaIngreso)
         {
             _nombre = nombre;
             _apellido = apellido;
             _contrasenia = contrasenia;
-            _email = email;
             _equipo = equipo;
             _fechaIngreso = fechaIngreso;
         }
@@ -30,8 +31,18 @@ namespace Dominio
         public string Email
         {
             get { return _email; }
+            set { _email = value; }
         }
 
+        public string Nombre
+        {
+            get { return _nombre;}
+        }
+
+        public string Apellido
+        {
+            get { return _apellido;}
+        }
         public Equipo Equipo
         {
             get { return _equipo; }

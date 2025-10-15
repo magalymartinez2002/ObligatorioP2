@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Clase Recurrente 
+
 namespace Dominio
 {
     public class Recurrente :Pago

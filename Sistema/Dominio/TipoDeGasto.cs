@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//Clase TipoDeGasto
+
 namespace Dominio
 {
     public class TipoDeGasto : IValidable

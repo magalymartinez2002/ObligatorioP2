@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
+//Clase Program
 internal class Program
 {
 
@@ -94,9 +95,7 @@ internal class Program
             Equipo equipo = miSistema.BuscarEquipoPorNombre(equipoNombre);
             if (equipo == null) throw new Exception("No se encontro un equipo con ese nombre en el sistema");
         
-            string email = miSistema.CrearEmailUsuario(nombre, apellido);
-
-            miSistema.CrearUsuario(new Usuario(nombre, apellido, contrasenia, email, equipo, fechaIngreso));
+           miSistema.CrearUsuario(new Usuario(nombre, apellido, contrasenia, equipo, fechaIngreso));
 
             MostrarExito("Se ha creado el usuario correctamente");
 
@@ -155,29 +154,6 @@ internal class Program
                 Console.WriteLine(p);
             }
           
-        }
-        catch (Exception ex)
-        {
-            MostrarError(ex.Message);
-        }
-        PressToContinue();
-    }
-
-    static void ListarEquipos()
-    {
-        Console.Clear();
-        MostrarMensajeColor(ConsoleColor.Yellow, "Listado de todos los Equipos");
-        Console.WriteLine();
-
-        try
-        {
-            List<Equipo> equipos = miSistema.Equipos;
-            if (equipos.Count == 0) throw new Exception("No se encontraron equipos en el sistema");
-
-            foreach (Equipo e in equipos)
-            {
-                Console.WriteLine(e);
-            }
         }
         catch (Exception ex)
         {

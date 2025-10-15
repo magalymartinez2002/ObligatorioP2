@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Clase Pago
+
 namespace Dominio
 {
     public abstract class Pago : IValidable
