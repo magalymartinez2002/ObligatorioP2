@@ -18,9 +18,11 @@ namespace Dominio
         private string _email;
         private Equipo _equipo;
         private DateTime _fechaIngreso;
+        private Rol _rol;
 
-        public Usuario(string nombre, string apellido, string contrasenia, Equipo equipo, DateTime fechaIngreso)
+        public Usuario(Rol rol,string nombre, string apellido, string contrasenia, Equipo equipo, DateTime fechaIngreso)
         {
+            _rol = rol;
             _nombre = nombre;
             _apellido = apellido;
             _contrasenia = contrasenia;
@@ -32,6 +34,23 @@ namespace Dominio
         {
             get { return _email; }
             set { _email = value; }
+        }
+
+        public string Contrasenia
+        {
+            get { return _contrasenia; }
+            set { _contrasenia = value; }
+        }
+
+        public Rol Rol
+        {
+            get { return _rol; }
+           
+        }
+
+        public DateTime FechaIngreso
+        {
+            get { return _fechaIngreso; }
         }
 
         public string Nombre

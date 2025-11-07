@@ -32,6 +32,11 @@ namespace Dominio
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacio");
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Equipo e && this._id == e._id; ;
+        }
+
         public override string ToString()
         {
             return $"{_nombre}";

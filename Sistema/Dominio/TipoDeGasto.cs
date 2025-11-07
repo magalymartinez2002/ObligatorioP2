@@ -15,6 +15,8 @@ namespace Dominio
         private string _nombre;
         private string _descripcion;
 
+
+        public TipoDeGasto() { }
         public TipoDeGasto(string nombre, string descripcion)
         {
             _nombre = nombre;
@@ -24,6 +26,13 @@ namespace Dominio
         public string Nombre
         {
             get { return _nombre; }
+            set { _nombre = value; }
+        }
+
+        public string Descripcion
+        {
+            get { return _descripcion; }
+            set { _descripcion = value; }
         }
 
         public void Validar()

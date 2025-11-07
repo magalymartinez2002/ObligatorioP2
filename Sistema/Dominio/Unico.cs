@@ -14,13 +14,26 @@ namespace Dominio
         private int _numRecibo;
         private int _descuento;
 
-
+        public Unico() : base()
+        {
+            _descuento = CalcularDescuento();
+        }
         public Unico(DateTime fecha, int numRecibo, double monto, string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario) : base(descripcion, metodoDePago, tipoDeGasto, usuario, monto)
         {
             _fecha = fecha;
             _numRecibo = numRecibo;
             _descuento = CalcularDescuento();
         }
+
+        public DateTime Fecha {
+            get { return _fecha; } 
+            set { _fecha = value; }
+        }
+        public int NumRecibo {
+            get { return _numRecibo; } 
+            set { _numRecibo = value; }
+        }
+
 
 
         private int CalcularDescuento()
@@ -37,6 +50,11 @@ namespace Dominio
         {
             double montoTotal = _monto - (_monto * _descuento / 100);
             return montoTotal;
+        }
+
+        public override bool PagoEsteMes(DateTime fecha)
+        {
+            return (_fecha.Year == fecha.Year && _fecha.Month == fecha.Month);
         }
 
         public override void Validar()

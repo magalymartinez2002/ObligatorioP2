@@ -1,0 +1,45 @@
+﻿@using Dominio;
+
+
+@{
+    ViewData["Title"] = "Perfil";
+}
+
+<h1>Perfil</h1>
+
+<div>
+    <p><strong>Nombre:</strong>@ViewBag.Usuario.Nombre </p>
+    <p><strong>Apellido:</strong> @ViewBag.Usuario.Apellido</p>
+    <p><strong>Email:</strong> @ViewBag.Usuario.Email</p>
+    <p><strong>Rol:</strong> @ViewBag.Usuario.Rol</p>
+    <p><strong>Fecha Incorporacion:</strong> @ViewBag.Usuario.FechaIngreso</p>
+    <p><strong>Equipo:</strong> @ViewBag.Usuario.Equipo.Nombre</p>
+
+</div>
+
+@if(Context.Session.GetString("rol") == "GERENTE")
+{
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Fecha Incorporacion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Usuario e in ViewBag.Equipo)
+            {
+                <tr>
+                    <td>@e.Nombre</td>
+                    <td>@e.Apellido</td>
+                    <td>@e.Email</td>
+                    <td>@e.Rol</td>
+                    <td>@e.FechaIngreso</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

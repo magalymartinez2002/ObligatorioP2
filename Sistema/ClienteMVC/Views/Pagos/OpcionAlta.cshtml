@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "OpcionAlta";
+}
+
+<h1>OpcionAlta</h1>
+
+<form method="post" action="/pagos/opcionAlta">
+    <label>
+    <input type="radio" name="tipoPago" value="unico" /> Pago Único
+    </label>
+    <label>
+    <input type="radio" name="tipoPago" value="recurrente" /> Pago Recurrente
+    </label>
+    <input type="submit" value="Seleccionar" />
+</form>

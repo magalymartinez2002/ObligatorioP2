@@ -15,6 +15,10 @@ namespace Dominio
         private DateTime _fechaFin;
         private int _recargo;
 
+        public Recurrente() : base()
+        {
+            _recargo = CalcularRecargo();
+        }
 
         public Recurrente(DateTime fechaInicio, DateTime fechaFin, double monto, string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario) : base(descripcion, metodoDePago, tipoDeGasto, usuario, monto)
         {
@@ -24,6 +28,16 @@ namespace Dominio
             _recargo = CalcularRecargo();
         }
 
+        public DateTime FechaInicio
+        {
+            get { return _fechaInicio; }
+            set { _fechaInicio = value; }
+        }
+        public DateTime FechaFin
+        {
+            get { return _fechaFin; }
+            set { _fechaFin = value; }
+        }
 
 
         public override double CalcularMontoTotal()
@@ -56,6 +70,13 @@ namespace Dominio
             int  meses = (fechaFin.Year - fechaInicio.Year) * 12 + (fechaFin.Month - fechaInicio.Month);
             
             return meses;
+        }
+
+        public override bool PagoEsteMes(DateTime fecha)
+        {
+            return (_fechaInicio.Year <= fecha.Year && _fechaInicio.Month <=fecha.Month) && (_fechaFin == DateTime.MinValue || (_fechaFin.Year >= fecha.Year && _fechaFin.Month>= fecha.Month));
+
+            
         }
 
        public override void Validar()

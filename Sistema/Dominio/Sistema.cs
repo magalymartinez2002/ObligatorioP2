@@ -16,6 +16,19 @@ namespace Dominio
         private List<Equipo> _equipos = new List<Equipo>();
         private List<TipoDeGasto> _tiposDeGasto = new List<TipoDeGasto>();
 
+        private static Sistema s_instancia;
+
+    public static Sistema Instancia
+        {
+            get
+            {
+                if (s_instancia == null)
+                {
+                    s_instancia = new Sistema();
+                }
+                return s_instancia;
+            }
+        }
 
         public Sistema()
         {
@@ -75,9 +88,18 @@ namespace Dominio
             _tiposDeGasto.Add(t);
         }
 
+        public Usuario Login(string email, string pass)
+        {
+            Usuario buscado = null;
+            Usuario usuario = BuscarUsuarioPorEmail(email);
+            if (usuario == null) throw new Exception("Usuario no encontrado");
+            if (usuario != null && usuario.Email == email && usuario.Contrasenia == pass) buscado = usuario;
+            else throw new Exception("Email o contraseña incorrecto");
+            return usuario;
+        }
 
         //Listados
-      
+
         public List<Pago> ListarPagosPorUsuario(Usuario usuario)
         {
             
@@ -90,18 +112,53 @@ namespace Dominio
             return pagosDelUsuario;
         }
 
+        public List<Pago> ListarPagosPorUsuarioDelMes(Usuario usuario, DateTime fecha)
+        {
+
+            if (usuario == null) throw new Exception("No se encontro el usuario");
+            List<Pago> pagosDelMes = new List<Pago>();
+            List<Pago> pagosDelUsuario = ListarPagosPorUsuario(usuario);
+
+            foreach (Pago p in pagosDelUsuario)
+            {
+                if (p.PagoEsteMes(fecha)) pagosDelMes.Add(p);
+            }
+            pagosDelMes.Sort();
+            return pagosDelMes;
+        }
+
         public List<Usuario> ListarUsuariosPorEquipo(Equipo equipo)
         {
             if (equipo == null) throw new Exception("El equipo no puede ser nulo");    
             List<Usuario> usuariosDelEquipo = new List<Usuario>();
             foreach (Usuario u in _usuarios)
             {
-                if (u.Equipo.Nombre == equipo.Nombre) usuariosDelEquipo.Add(u);
+                if (equipo.Equals(u.Equipo)) usuariosDelEquipo.Add(u);
             }
             return usuariosDelEquipo;
         }
 
-       
+        public List<Pago> ListarPagosPorEquipo(Equipo equipo, DateTime fecha)
+        {
+            
+            List<Pago> pagosDelMes = new List<Pago>();
+            List<Usuario> usuarios = ListarUsuariosPorEquipo(equipo);
+
+            foreach (Usuario u in usuarios)
+            {
+                List<Pago> pagosDelUsuario = ListarPagosPorUsuario(u);
+                foreach (Pago p in pagosDelUsuario)
+                {
+                    if (p.PagoEsteMes(fecha)) pagosDelMes.Add(p);
+                }
+
+            }
+
+            pagosDelMes.Sort();
+            return pagosDelMes;
+        }
+
+
         public string CrearEmailUsuario(string nombre, string apellido)
         {
             if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre no puede ser nulo o estar vacio");
@@ -183,36 +240,36 @@ namespace Dominio
         {
            
             // Sistemas
-            CrearUsuario(new Usuario("Magaly", "Martinez", "a123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
-            CrearUsuario(new Usuario("Victoria", "Garcia", "a123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
-            CrearUsuario(new Usuario("Juan", "Perez", "b123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
-            CrearUsuario(new Usuario("Lucia", "Fernandez", "c123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
-            CrearUsuario(new Usuario("Martin", "Lopez", "d123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
-            CrearUsuario(new Usuario("Sofia", "Garcia", "e123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
-            CrearUsuario(new Usuario("Diego", "Rodriguez", "f123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE,"Magaly", "Martinez", "a123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE,"Victoria", "Garcia", "a123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO,"Juan", "Perez", "b123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Lucia", "Fernandez", "c123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Martin", "Lopez", "d123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Sofia", "Garcia", "e123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Diego", "Rodriguez", "f123456.", BuscarEquipoPorNombre("Sistemas"), DateTime.Today));
 
             // Contabilidad
-            CrearUsuario(new Usuario("Carolina", "Suarez", "g123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
-            CrearUsuario(new Usuario("Andres", "Mendez", "h123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
-            CrearUsuario(new Usuario("Paola", "Silva", "i123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
-            CrearUsuario(new Usuario("Fernando", "Alvarez", "j123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
-            CrearUsuario(new Usuario("Laura", "Dominguez", "k123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Carolina", "Suarez", "g123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Andres", "Mendez", "h123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Paola", "Silva", "i123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE,"Fernando", "Alvarez", "j123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE,"Laura", "Dominguez", "k123456.", BuscarEquipoPorNombre("Contabilidad"), DateTime.Today));
 
             // Marketing
-            CrearUsuario(new Usuario("Gonzalo", "Ramos", "l123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
-            CrearUsuario(new Usuario("Valentina", "Cabrera", "m123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
-            CrearUsuario(new Usuario("Rodrigo", "Vazquez", "n123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
-            CrearUsuario(new Usuario("Florencia", "Mora", "o123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
-            CrearUsuario(new Usuario("Sebastian", "Castro", "p123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
-            CrearUsuario(new Usuario("Julieta", "Rios", "q123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Gonzalo", "Ramos", "l123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE, "Valentina", "Cabrera", "m123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Rodrigo", "Vazquez", "n123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Florencia", "Mora", "o123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Sebastian", "Castro", "p123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE, "Julieta", "Rios", "q123456.", BuscarEquipoPorNombre("Marketing"), DateTime.Today));
 
             // Recursos Humanos
-            CrearUsuario(new Usuario("Matias", "Ortiz", "r123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
-            CrearUsuario(new Usuario("Camila", "Torres", "s123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
-            CrearUsuario(new Usuario("Nicolas", "Gomez", "t123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
-            CrearUsuario(new Usuario("Agustina", "Morales", "u123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
-            CrearUsuario(new Usuario("Bruno", "Sanchez", "v123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
-            CrearUsuario(new Usuario("Daniela", "Prieto", "w123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE, "Matias", "Ortiz", "r123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.GERENTE, "Camila", "Torres", "s123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Nicolas", "Gomez", "t123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Agustina", "Morales", "u123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Bruno", "Sanchez", "v123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
+            CrearUsuario(new Usuario(Rol.EMPLEADO, "Daniela", "Prieto", "w123456.", BuscarEquipoPorNombre("Recursos Humanos"), DateTime.Today));
 
         }
 

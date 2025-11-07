@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public abstract class Pago : IValidable
+    public abstract class Pago : IValidable, IComparable<Pago>
     {
 
         protected int _id;
@@ -20,6 +20,10 @@ namespace Dominio
         protected Usuario _usuario;
         protected double _monto;
 
+        public Pago()
+        {
+            _id = s_ultiID++;
+        }
 
         public Pago(string descripcion, MetodoDePago metodoDePago, TipoDeGasto tipoDeGasto, Usuario usuario, double monto)
         {
@@ -34,6 +38,33 @@ namespace Dominio
         public Usuario Usuario
         {  
             get {return _usuario;} 
+            set { _usuario = value;}
+        }
+
+        public double Monto
+        {
+            get { return _monto; }
+            set { _monto = value;}
+        }
+        public TipoDeGasto TipoDeGasto
+        {
+            get { return _tipoDeGasto; }
+            set { _tipoDeGasto = value; }
+        }
+
+        public string Descripcion
+        {
+            get { return _descripcion; }
+            set { _descripcion = value; }
+        }
+        public int Id
+        {
+            get { return _id; }
+        }
+        public MetodoDePago MetodoDePago
+        {
+            get { return _metodoDePago; }
+            set { _metodoDePago = value; }
         }
 
 
@@ -45,10 +76,16 @@ namespace Dominio
             if (_usuario == null) throw new Exception("El usuario no puede ser nulo");
         }
 
+       
+
         public abstract double CalcularMontoTotal();
 
-        
-       
+        public abstract bool PagoEsteMes(DateTime fecha);
+
+        public int CompareTo(Pago? other)
+        {
+            return this._monto.CompareTo(other._monto) * -1;
+        }
     }
 
 
