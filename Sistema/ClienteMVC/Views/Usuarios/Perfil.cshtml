@@ -14,6 +14,8 @@
     <p><strong>Rol:</strong> @ViewBag.Usuario.Rol</p>
     <p><strong>Fecha Incorporacion:</strong> @ViewBag.Usuario.FechaIngreso</p>
     <p><strong>Equipo:</strong> @ViewBag.Usuario.Equipo.Nombre</p>
+    <p><strong>Monto total gastado:</strong> @ViewBag.MontoTotal</p>
+
 
 </div>
 
@@ -27,9 +29,13 @@
                 <th>Email</th>
                 <th>Rol</th>
                 <th>Fecha Incorporacion</th>
+                <th>Monto Total Gastado</th>
             </tr>
         </thead>
         <tbody>
+            @{
+                int i = 0;
+            }
             @foreach (Usuario e in ViewBag.Equipo)
             {
                 <tr>
@@ -37,9 +43,12 @@
                     <td>@e.Apellido</td>
                     <td>@e.Email</td>
                     <td>@e.Rol</td>
-                    <td>@e.FechaIngreso</td>
+                    <td>@e.FechaIngreso.ToShortDateString()</td>
+                    <td>@ViewBag.Montos[i]</td>
                 </tr>
+                i++;
             }
+    
         </tbody>
     </table>
 }

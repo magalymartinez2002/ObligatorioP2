@@ -84,7 +84,7 @@ namespace Dominio
 
         public int CompareTo(Pago? other)
         {
-            return this._monto.CompareTo(other._monto) * -1;
+            return _monto.CompareTo(other._monto) * -1;
         }
     }
 

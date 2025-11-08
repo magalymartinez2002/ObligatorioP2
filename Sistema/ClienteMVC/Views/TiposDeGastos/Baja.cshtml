@@ -1,0 +1,33 @@
+﻿@using Dominio;
+@{
+    ViewData["Title"] = "Baja";
+}
+
+<h1>Baja de Tipo de gasto</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+
+
+
+<form method="post" action="/tiposDeGastos/baja">
+    <select name="nombre">
+        @foreach (TipoDeGasto t in Sistema.Instancia.TiposDeGasto)
+        {
+            <option value="@t.Nombre">@t.Nombre</option>
+        }
+    </select>
+    <input type="submit" value="Eliminar" />
+</form>
+
+
+
+

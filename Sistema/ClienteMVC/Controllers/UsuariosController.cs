@@ -39,8 +39,9 @@ namespace ClienteMVC.Controllers
         { 
             Usuario usuario = miSistema.BuscarUsuarioPorEmail(HttpContext.Session.GetString("usuario"));
             ViewBag.Usuario= usuario;
-               
+            ViewBag.MontoTotal = miSistema.MontoTotalPorUsuario(usuario, DateTime.Today);
             ViewBag.Equipo = miSistema.ListarUsuariosPorEquipo(usuario.Equipo);
+            ViewBag.Montos = miSistema.ListarMontoDeUsuarios(usuario.Equipo);
             return View();
         }
         

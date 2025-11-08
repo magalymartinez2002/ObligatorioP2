@@ -1,0 +1,23 @@
+﻿@using Dominio;
+@model TipoDeGasto;
+@{
+    ViewData["Title"] = "Alta";
+}
+
+<h1>Crear nuevo Tipo de gasto</h1>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+
+<form method="post" action="/tiposDeGastos/alta">
+    <input type="text" placeholder="Nombre" name="Nombre" />
+    <input type="text" placeholder="Descripcion" name="Descripcion"/>
+    <input type="submit" value="Crear"/>
+</form>

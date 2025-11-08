@@ -135,7 +135,24 @@ namespace Dominio
             {
                 if (equipo.Equals(u.Equipo)) usuariosDelEquipo.Add(u);
             }
+
+            usuariosDelEquipo.Sort();
             return usuariosDelEquipo;
+        }
+
+        public List<double> ListarMontoDeUsuarios(Equipo equipo)
+        {
+            if (equipo == null) throw new Exception("El equipo no puede ser nulo");
+
+            List<Usuario> usuariosDelEquipo = ListarUsuariosPorEquipo(equipo);
+
+            List<double> result = new List<double>();
+            foreach (Usuario u in usuariosDelEquipo)
+            {
+                result.Add(MontoTotalPorUsuario(u, DateTime.Today));
+            }
+            
+            return result;
         }
 
         public List<Pago> ListarPagosPorEquipo(Equipo equipo, DateTime fecha)
@@ -157,6 +174,46 @@ namespace Dominio
             pagosDelMes.Sort();
             return pagosDelMes;
         }
+
+        public double MontoTotalPorUsuario(Usuario u, DateTime fecha)
+        {
+            List<Pago> pagos = ListarPagosPorUsuarioDelMes(u, fecha);
+            double total = 0;
+
+            foreach (Pago p in pagos)
+            {
+                total=+ p.CalcularMontoTotal();
+
+            }
+            return total;
+        }
+        
+        public bool ExisteTipoDeGasto(string nombre)
+        {
+           
+            int i = 0;
+            bool buscado= false;
+
+            while (!buscado && i < _pagos.Count)
+            {
+                if (_pagos[i].TipoDeGasto.Nombre == nombre) buscado= true;
+                i++;
+            }
+            return buscado;
+        }
+
+     /*   public double MontoTotalPorEquipo(Equipo e, DateTime fecha)
+        {
+            List<Pago> pagos= ListarPagosPorEquipo(e, fecha);
+
+            double total = 0;
+            foreach (Pago p in pagos)
+            {
+                total = +p.CalcularMontoTotal();
+
+            }
+            return total;
+        }*/
 
 
         public string CrearEmailUsuario(string nombre, string apellido)

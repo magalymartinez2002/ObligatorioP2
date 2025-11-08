@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class Usuario : IValidable
+    public class Usuario : IValidable, IComparable<Usuario>
     {
 
         private string _nombre;
@@ -92,6 +92,11 @@ namespace Dominio
         public override string ToString()
         {
             return $"{_nombre} {_apellido} - {_email} - {_equipo.Nombre} ";
+        }
+
+        public int CompareTo(Usuario? other)
+        {
+            return _email.CompareTo(other._email);
         }
     }
 }
