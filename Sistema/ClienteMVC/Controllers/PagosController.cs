@@ -9,9 +9,17 @@ namespace ClienteMVC.Controllers
 
         public IActionResult Listado()
         {
-            
-            Usuario u = miSistema.BuscarUsuarioPorEmail(HttpContext.Session.GetString("usuario"));
-            ViewBag.Listado = miSistema.ListarPagosPorUsuarioDelMes(u, DateTime.Today);
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
+            try
+            {
+                Usuario u = miSistema.BuscarUsuarioPorEmail(HttpContext.Session.GetString("usuario"));
+                ViewBag.Listado = miSistema.ListarPagosPorUsuarioDelMes(u, DateTime.Today);
+                
+            }
+            catch (Exception ex) 
+            {
+                ViewBag.Error = ex;
+            }
             return View();
         }
 
@@ -19,22 +27,29 @@ namespace ClienteMVC.Controllers
         [HttpGet]
         public IActionResult ListadoPorEquipo()
         {
-            DateTime fecha = DateTime.Today;
-            if (TempData["Fecha"] != null) fecha = (DateTime)(TempData["Fecha"]);
+            if (HttpContext.Session.GetString("rol") == null || HttpContext.Session.GetString("rol") != "GERENTE") return View("NoAuth");
+            try
+            {
+                DateTime fecha = DateTime.Today;
+                if (TempData["Fecha"] != null) fecha = (DateTime)(TempData["Fecha"]);
+                if (TempData["Mensaje"] != null) ViewBag.Mensaje = TempData["Mensaje"].ToString();
+                Usuario u = miSistema.BuscarUsuarioPorEmail(HttpContext.Session.GetString("usuario"));
 
-            if (TempData["Mensaje"] != null) ViewBag.Mensaje = TempData["Mensaje"].ToString();
+                ViewBag.Listado = miSistema.ListarPagosPorEquipo(u.Equipo, fecha);
+            }
+            catch (Exception ex) 
+            { ViewBag.Error = ex; }
 
-            Usuario u = miSistema.BuscarUsuarioPorEmail(HttpContext.Session.GetString("usuario"));
 
-            ViewBag.Listado = miSistema.ListarPagosPorEquipo(u.Equipo, fecha);
-           
             return View();
         }
 
         [HttpPost]
         public IActionResult ListadoPorEquipo(DateTime fecha)
         {
-            TempData["Mensaje"] = $"Pagos de la fecha {fecha.ToString()}";
+            if (HttpContext.Session.GetString("rol") == null || HttpContext.Session.GetString("rol") != "GERENTE") return View("NoAuth");
+
+            TempData["Mensaje"] = $"Pagos de la fecha {fecha.ToShortDateString()}";
             TempData["Fecha"] = fecha;
             return RedirectToAction("ListadoPorEquipo");
 
@@ -44,25 +59,28 @@ namespace ClienteMVC.Controllers
         [HttpGet]
         public IActionResult OpcionAlta()
         {
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
             return View();
         }
 
         [HttpPost]
         public IActionResult OpcionAlta(string tipoPago)
         {
-           
-           return tipoPago == "unico"? RedirectToAction("AltaUnico") : RedirectToAction("AltaRecurrente");
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
+            return tipoPago == "unico"? RedirectToAction("AltaUnico") : RedirectToAction("AltaRecurrente");
         }
 
         [HttpGet]
         public IActionResult AltaUnico()
         {
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
             return View();
         }
 
         [HttpPost]
         public IActionResult AltaUnico(Unico p, string nomTipoGasto)
         {
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
             try
             {
                 if (string.IsNullOrEmpty(p.Descripcion)) throw new Exception("La descripcion no puede ser nula o vacia");
@@ -81,12 +99,14 @@ namespace ClienteMVC.Controllers
         [HttpGet]
         public IActionResult AltaRecurrente()
         {
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
             return View();
         }
 
         [HttpPost]
         public IActionResult AltaRecurrente(Recurrente p,string nomTipoGasto)
         {
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
             try
             {
                 if (string.IsNullOrEmpty(p.Descripcion)) throw new Exception("La descripcion no puede ser nula o vacia");

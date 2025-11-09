@@ -36,17 +36,26 @@ namespace ClienteMVC.Controllers
         }
 
         public IActionResult Perfil()
-        { 
-            Usuario usuario = miSistema.BuscarUsuarioPorEmail(HttpContext.Session.GetString("usuario"));
-            ViewBag.Usuario= usuario;
-            ViewBag.MontoTotal = miSistema.MontoTotalPorUsuario(usuario, DateTime.Today);
-            ViewBag.Equipo = miSistema.ListarUsuariosPorEquipo(usuario.Equipo);
-            ViewBag.Montos = miSistema.ListarMontoDeUsuarios(usuario.Equipo);
+        {
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
+            try
+            {
+                Usuario usuario = miSistema.BuscarUsuarioPorEmail(HttpContext.Session.GetString("usuario"));
+                ViewBag.Usuario = usuario;
+                ViewBag.MontoTotal = miSistema.MontoTotalPorUsuario(usuario, DateTime.Today);
+                ViewBag.Equipo = miSistema.ListarUsuariosPorEquipo(usuario.Equipo);
+                ViewBag.Montos = miSistema.ListarMontoDeUsuarios(usuario.Equipo);
+            }
+            catch (Exception ex) 
+            {
+                ViewBag.Error = ex.Message;
+            }
             return View();
         }
         
         public IActionResult Logout()
         {
+         
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }

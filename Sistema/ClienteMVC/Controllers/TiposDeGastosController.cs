@@ -6,15 +6,20 @@ namespace ClienteMVC.Controllers
     public class TiposDeGastosController : Controller
     {
         Sistema miSistema=Sistema.Instancia;
+
         [HttpGet]
         public IActionResult Alta()
         {
+            if (HttpContext.Session.GetString("rol") == null || HttpContext.Session.GetString("rol") != "GERENTE") return View("NoAuth");
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Alta(TipoDeGasto t)
         {
+            if (HttpContext.Session.GetString("rol") == null || HttpContext.Session.GetString("rol") != "GERENTE") return View("NoAuth");
+
             try
             {
                 if (string.IsNullOrEmpty(t.Nombre)) throw new Exception("El noombre no puede ser nulo o estar vacio");
@@ -36,6 +41,8 @@ namespace ClienteMVC.Controllers
         [HttpGet]
         public IActionResult Baja() 
         {
+            if (HttpContext.Session.GetString("rol") == null || HttpContext.Session.GetString("rol") != "GERENTE") return View("NoAuth");
+
             ViewBag.Listado = miSistema.TiposDeGasto;
             return View();
         }
@@ -43,6 +50,8 @@ namespace ClienteMVC.Controllers
         [HttpPost]
         public IActionResult Baja(string nombre)
         {
+            if (HttpContext.Session.GetString("rol") == null || HttpContext.Session.GetString("rol") != "GERENTE") return View("NoAuth");
+
             try
             {
                 if (string.IsNullOrEmpty(nombre)) throw new Exception("El nombre es nulo");

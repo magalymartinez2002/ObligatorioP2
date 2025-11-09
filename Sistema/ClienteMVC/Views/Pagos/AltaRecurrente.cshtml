@@ -6,6 +6,15 @@
 
 <h1>AltaRecurrente</h1>
 
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
 <form method="post" action="/pagos/altaRecurrente">
     <input type="text" name="Descripcion" placeholder="Descripcion" />
     <select name="MetodoDePago">
