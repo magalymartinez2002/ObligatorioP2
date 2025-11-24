@@ -82,9 +82,12 @@ namespace Dominio
        public override void Validar()
         {
             base.Validar();
+            if (_fechaInicio == DateTime.MinValue) throw new Exception("La fecha de inicio no puede ser nula");
+
             if (_fechaInicio > DateTime.Today) throw new Exception("La fecha de inicio no puede ser mayor a la fecha actual");
             if (_fechaFin != DateTime.MinValue && _fechaFin < _fechaInicio) throw new Exception("La fecha de fin no puede ser menor a la fecha de inicio");
-            
+           
+                
         }
 
 
@@ -105,13 +108,6 @@ namespace Dominio
             return recargoTotal;
         }
 
-        public override string ToString()
-        {
-            string s = $" Pago: {_id} - Metodo de Pago: - {_metodoDePago} - Monto Total: {CalcularMontoTotal()}";
-            if (_fechaFin == DateTime.MinValue) s=s+ $" - Recurrente";
-            else s=s+ $" - Pagos pendientes: {CalcularPagosPendientes()}";
-
-            return s;
-        }
+       
     }
 }

@@ -2,6 +2,7 @@ using ClienteMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
+//Controlador Home
 namespace ClienteMVC.Controllers
 {
     public class HomeController : Controller
@@ -15,13 +16,11 @@ namespace ClienteMVC.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("rol") == null) return View("NoAuth");
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+   
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

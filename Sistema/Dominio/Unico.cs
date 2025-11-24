@@ -60,6 +60,8 @@ namespace Dominio
         public override void Validar()
         {
             base.Validar();
+            if (_fecha == DateTime.MinValue) throw new Exception("La fecha no puede ser nula");
+
             if (_fecha > DateTime.Today) throw new Exception("La fecha no puede ser mayor a la fecha actual");
             if (_numRecibo <= 0) throw new Exception("El numero de recibo debe ser mayor a 0");
             
@@ -67,10 +69,7 @@ namespace Dominio
         }
        
 
-        public override string ToString()
-        {
-            return $" Pago: {_id} - Metodo de Pago: {_metodoDePago} -  Monto Total: {CalcularMontoTotal()}";
-        }
+        
     }
 
 }

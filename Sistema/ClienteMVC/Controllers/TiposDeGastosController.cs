@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using Microsoft.AspNetCore.Mvc;
 
+//Controlador Tipos de gastos
 namespace ClienteMVC.Controllers
 {
     public class TiposDeGastosController : Controller

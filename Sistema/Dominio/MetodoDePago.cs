@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//Enumerado Metodo de Pago
 namespace Dominio
 {
     public enum MetodoDePago

@@ -89,10 +89,7 @@ namespace Dominio
         }
 
 
-        public override string ToString()
-        {
-            return $"{_nombre} {_apellido} - {_email} - {_equipo.Nombre} ";
-        }
+       
 
         public int CompareTo(Usuario? other)
         {

@@ -41,9 +41,12 @@ namespace Dominio
             if (string.IsNullOrEmpty(_descripcion)) throw new Exception("La descripcion no puede ser nula o estar vacia");
         }
 
-        public override string ToString()
+      
+
+        public override bool Equals(object? obj)
         {
-            return $"{_nombre} - {_descripcion}";
+
+            return obj is TipoDeGasto t && t.Nombre == _nombre;
         }
     }
 }

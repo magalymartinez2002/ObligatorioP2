@@ -92,7 +92,7 @@ namespace Dominio
         {
             Usuario buscado = null;
             Usuario usuario = BuscarUsuarioPorEmail(email);
-            if (usuario == null) throw new Exception("Usuario no encontrado");
+            if (usuario == null) throw new Exception("Email o contraseña incorrecto");
             if (usuario != null && usuario.Email == email && usuario.Contrasenia == pass) buscado = usuario;
             else throw new Exception("Email o contraseña incorrecto");
             return usuario;
@@ -119,6 +119,7 @@ namespace Dominio
             List<Pago> pagosDelMes = new List<Pago>();
             List<Pago> pagosDelUsuario = ListarPagosPorUsuario(usuario);
 
+           if (pagosDelUsuario.Count <= 0) throw new Exception($"No existen pagos del mes {fecha.Month} ");
             foreach (Pago p in pagosDelUsuario)
             {
                 if (p.PagoEsteMes(fecha)) pagosDelMes.Add(p);
@@ -140,34 +141,15 @@ namespace Dominio
             return usuariosDelEquipo;
         }
 
-        public List<double> ListarMontoDeUsuarios(Equipo equipo)
-        {
-            if (equipo == null) throw new Exception("El equipo no puede ser nulo");
-
-            List<Usuario> usuariosDelEquipo = ListarUsuariosPorEquipo(equipo);
-
-            List<double> result = new List<double>();
-            foreach (Usuario u in usuariosDelEquipo)
-            {
-                result.Add(MontoTotalPorUsuario(u, DateTime.Today));
-            }
-            
-            return result;
-        }
+       
 
         public List<Pago> ListarPagosPorEquipo(Equipo equipo, DateTime fecha)
         {
             
             List<Pago> pagosDelMes = new List<Pago>();
-            List<Usuario> usuarios = ListarUsuariosPorEquipo(equipo);
-
-            foreach (Usuario u in usuarios)
+            foreach (Pago p in _pagos)
             {
-                List<Pago> pagosDelUsuario = ListarPagosPorUsuario(u);
-                foreach (Pago p in pagosDelUsuario)
-                {
-                    if (p.PagoEsteMes(fecha)) pagosDelMes.Add(p);
-                }
+                if (p.Usuario.Equipo.Equals(equipo) && p.PagoEsteMes(fecha)) pagosDelMes.Add(p);
 
             }
 
@@ -202,18 +184,7 @@ namespace Dominio
             return buscado;
         }
 
-     /*   public double MontoTotalPorEquipo(Equipo e, DateTime fecha)
-        {
-            List<Pago> pagos= ListarPagosPorEquipo(e, fecha);
-
-            double total = 0;
-            foreach (Pago p in pagos)
-            {
-                total = +p.CalcularMontoTotal();
-
-            }
-            return total;
-        }*/
+    
 
 
         public string CrearEmailUsuario(string nombre, string apellido)

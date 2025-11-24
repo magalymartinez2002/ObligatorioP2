@@ -1,10 +1,12 @@
-﻿@using Dominio;
+﻿@*Vista  alta de controlador Tipos de gastos*@
+
+@using Dominio;
 @model TipoDeGasto;
 @{
     ViewData["Title"] = "Alta";
 }
 
-<h1>Crear nuevo Tipo de gasto</h1>
+<h1>Crear nuevo tipo de gasto</h1>
 @if (ViewBag.Error != null)
 {
     <div class="alert alert-danger">@ViewBag.Error</div>

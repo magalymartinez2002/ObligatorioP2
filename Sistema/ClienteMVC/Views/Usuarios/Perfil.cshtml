@@ -1,4 +1,6 @@
-﻿@using Dominio;
+﻿@*Vista perfil de controlador Usuarios*@
+
+@using Dominio;
 
 
 @{
@@ -34,13 +36,11 @@
                 <th>Email</th>
                 <th>Rol</th>
                 <th>Fecha Incorporacion</th>
-                <th>Monto Total Gastado</th>
+                
             </tr>
         </thead>
         <tbody>
-            @{
-                int i = 0;
-            }
+           
             @foreach (Usuario e in ViewBag.Equipo)
             {
                 <tr>
@@ -49,9 +49,9 @@
                     <td>@e.Email</td>
                     <td>@e.Rol</td>
                     <td>@e.FechaIngreso.ToShortDateString()</td>
-                    <td>@ViewBag.Montos[i]</td>
+                    
                 </tr>
-                i++;
+               
             }
     
         </tbody>

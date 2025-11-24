@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Dominio;
 
+//Controlador Usuarios
 namespace ClienteMVC.Controllers
 {
     public class UsuariosController : Controller
@@ -44,7 +45,7 @@ namespace ClienteMVC.Controllers
                 ViewBag.Usuario = usuario;
                 ViewBag.MontoTotal = miSistema.MontoTotalPorUsuario(usuario, DateTime.Today);
                 ViewBag.Equipo = miSistema.ListarUsuariosPorEquipo(usuario.Equipo);
-                ViewBag.Montos = miSistema.ListarMontoDeUsuarios(usuario.Equipo);
+               
             }
             catch (Exception ex) 
             {

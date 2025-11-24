@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using Microsoft.AspNetCore.Mvc;
 
+//Controlador Pagos
 namespace ClienteMVC.Controllers
 {
     public class PagosController : Controller

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@*Layout*@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,31 +9,23 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ClienteMVC.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/estilos.css" />
+  
 
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ClienteMVC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                
+                
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    
 
                         
-                        @if (Context.Session.GetString("usuario") == null)
+                        @if (Context.Session.GetString("usuario") != null)
+                       
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Login">Login</a>
-                            </li>
-
-                        }
-                        else
-                        {
+                        <ul class="navbar-nav flex-grow-1">
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Pagos" asp-action="Listado">Pagos</a>
@@ -43,20 +37,13 @@
 
 
 
-                            if(Context.Session.GetString("rol") == "GERENTE")
+                            @if(Context.Session.GetString("rol") == "GERENTE")
                             {
 
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Pagos" asp-action="ListadoPorEquipo">Pagos del equipo</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="TiposDeGastos" asp-action="Alta">Crear Tipo de gasto</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="TiposDeGastos" asp-action="Baja">Eliminar Tipo de Gasto</a>
-                                </li>
-
-
+                                
 
                                 <div class="dropdown">
                                     <button class="nav-item nav-link text-dark " type="button" id="menuGasto" data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,17 +63,9 @@
 
 
 
+                        </ul>
 
-
-
-
-
-
-
-
-
-
-
+                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Perfil">Perfil</a>
                             </li>
@@ -94,12 +73,13 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout">Salir</a>
                             </li>
-
+                            </ul>
 
                         }
 
                        
-                    </ul>
+                    
+                    <ul class="navbar-nav flex-grow-1"></ul>
                 </div>
             </div>
         </nav>
