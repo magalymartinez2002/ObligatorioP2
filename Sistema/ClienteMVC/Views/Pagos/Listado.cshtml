@@ -6,12 +6,18 @@
 
 <h1>Pagos del mes</h1>
 
-@if (ViewBag.Error != null)
+@if (ViewBag.Listado == null || ((List<Pago>)ViewBag.Listado).Count == 0)
 {
-    <div class="alert alert-info">@ViewBag.Error</div>
-}
+    <div class="alert alert-info">No hay pagos para mostrar</div>
+} else {
 
-<table class="table table-dark">
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-info">@ViewBag.Error</div>
+    }
+
+
+    <table class="table table-dark">
     <thead>
         <tr>
             <th>Email</th>
@@ -24,6 +30,7 @@
         </tr>
     </thead>
     <tbody>
+        
         @foreach(Pago p in ViewBag.Listado)
         {
             <tr>
@@ -44,8 +51,9 @@
                 <td>@p.MetodoDePago.ToString()</td>
             </tr>
         }
+        
        
     </tbody>
    
 </table>
-
+}

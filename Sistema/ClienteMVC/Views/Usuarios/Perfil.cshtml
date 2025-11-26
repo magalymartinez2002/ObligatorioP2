@@ -26,8 +26,13 @@
 
 </div>
 
+
 @if(Context.Session.GetString("rol") == "GERENTE")
 {
+    @if (ViewBag.Equipo == null || ViewBag.Equipo.Count == 0)
+    {
+        <div class="alert alert-info">No hay miembros en su equipo</div>
+    }else {
     <table class="table table-dark">
         <thead>
             <tr>
@@ -41,9 +46,10 @@
         </thead>
         <tbody>
            
-            @foreach (Usuario e in ViewBag.Equipo)
-            {
-                <tr>
+                
+           @foreach (Usuario e in ViewBag.Equipo)
+               {
+                 <tr>
                     <td>@e.Nombre</td>
                     <td>@e.Apellido</td>
                     <td>@e.Email</td>
@@ -52,8 +58,10 @@
                     
                 </tr>
                
-            }
+                 }
+            
     
         </tbody>
     </table>
+    }
 }
